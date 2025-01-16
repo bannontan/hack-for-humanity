@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
-import { fileURLToPath } from 'url'; // utility to help with file paths
-import path from 'path'; // utility to help with file paths
+import { fileURLToPath } from "url"; // utility to help with file paths
+import path from "path"; // utility to help with file paths
+import cors from "cors";
 
 import authUser from "./routes/authUser.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
@@ -17,11 +18,21 @@ const port = process.env.PORT || 8000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Configure CORS
+const corsOptions = {
+	origin: "http://localhost:3000", // Replace with your frontend's URL
+	methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+	allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+	credentials: true, // Enable sending cookies with CORS requests
+};
+
+app.use(cors(corsOptions));
+
 // Set the view engine to EJS
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
 // Specify the directory for EJS templates (default is `views`)
-app.set('views', './views');
+app.set("views", "./views");
 
 app.use(
 	session({
@@ -36,7 +47,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // // Set a static folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", authenticate, (req, res, next) => {
 	res.render("test");
