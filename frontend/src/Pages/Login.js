@@ -3,20 +3,45 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState(''); // Updated: 'id' instead of 'email'
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      setErrorMessage('Please enter both email and password');
-    } else {
-      setErrorMessage('');
-      console.log('Logged in with', email, password);
-      navigate('/home');
+    if (!id || !password) {
+      setErrorMessage('Please enter both ID and password');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8080/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, password }),
+      });
+      console.log('1');
+
+      if (!response.ok) {
+        const { message } = await response.json();
+        setErrorMessage(message || 'Invalid login credentials');
+        console.log('2');
+        return;
+      }
+
+      console.log('3');
+      const data = await response.json();
+      console.log(data);
+      if (data.bool && data.role === 'admin') {
+        navigate('/home', { state: { username: data.username } });
+      } else {
+        setErrorMessage('Access denied: You are not an admin');
+      }
+    } catch (error) {
+      setErrorMessage('An error occurred. Please try again.');
     }
   };
 
@@ -26,10 +51,10 @@ const Login = () => {
       {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleLogin}>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text" // Updated: Changed type to 'text' for ID
+          placeholder="Enter your ID" // Updated: Placeholder reflects 'ID'
+          value={id}
+          onChange={(e) => setId(e.target.value)} // Updated: Updates 'id' state
           required
         />
         <input
