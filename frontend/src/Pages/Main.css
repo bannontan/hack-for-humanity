@@ -1,0 +1,104 @@
+/* Main.css */
+
+/* Main page container */
+.main-page {
+    background-color: #ffffff;  /* Clean, modern white background */
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 15px;  /* Softer border radius */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);  /* Subtle shadow for depth */
+    width: 90%;
+    max-width: 450px; /* Make the container a little narrower for mobile */
+    text-align: center;
+    border: 1px solid #e0e0e0;  /* Subtle border */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean modern font */
+    color: #333;  /* Dark text color for readability */
+    margin: auto;  /* Centers the container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+  }
+  
+  /* Title Section */
+  .main-page h1 {
+    font-size: 32px;
+    font-weight: 700;  /* Bold and impactful title */
+    color: #2C3E50;  /* Darker shade of blue for a professional look */
+    margin-bottom: 20px;
+    margin-top: 0px;
+    letter-spacing: 1px;  /* Slightly spaced letters for modern feel */
+  }
+  
+  /* Subtitle Section */
+  .main-page .subtitle {
+    font-size: 16px;
+    color: #7F8C8D;  /* Lighter, more neutral gray */
+    margin-bottom: 30px;
+    line-height: 1.6;
+    font-weight: 400;  /* Regular weight for the description */
+  }
+  
+  /* Button Container */
+  .main-page .buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;  /* Full width for button container */
+  }
+  
+  /* Button Styles */
+  .main-page .buttons button {
+    padding: 14px 28px;  /* Comfortable padding for buttons */
+    font-size: 18px;  /* Larger text for better readability */
+    font-weight: 600;  /* Semi-bold font for emphasis */
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    width: 48%;
+  }
+  
+  .main-page .login-button {
+    background-color: #2980B9;  /* Vibrant blue color */
+    color: white;
+    border: 1px solid #2980B9;  /* Same color border */
+  }
+  
+  .main-page .login-button:hover {
+    background-color: #1A618B;  /* Slightly darker blue on hover */
+    border-color: #1A618B;
+  }
+  
+  .main-page .skip-button {
+    background-color: #F1F1F1;  /* Light background for a soft contrast */
+    color: #2C3E50;  /* Dark text for readability */
+    border: 1px solid #BDC3C7;  /* Lighter border for the skip button */
+  }
+  
+  .main-page .skip-button:hover {
+    background-color: #BDC3C7;  /* Hover effect with a slight color change */
+    border-color: #BDC3C7;
+  }
+  
+  /* Responsive Adjustments for Mobile */
+  @media (max-width: 600px) {
+    .main-page h1 {
+      font-size: 28px;  /* Adjust font size for mobile */
+    }
+  
+    .main-page .subtitle {
+      font-size: 14px;  /* Slightly smaller subtitle */
+    }
+  
+    .main-page .buttons {
+      flex-direction: column;  /* Stack buttons on mobile */
+    }
+  
+    .main-page .buttons button {
+      width: 100%;  /* Full width buttons on small screens */
+      margin-bottom: 20px;  /* Space between stacked buttons */
+    }
+  }
+  
