@@ -37,7 +37,7 @@ export const createUser = async (req, res, next) => {
 	}
 };
 
-// @desc	Get user
+// @desc	Get user information by id
 // @route	GET /user/:id
 export const getUser = async (req, res, next) => {
 	const id = req.params.id;
@@ -75,6 +75,35 @@ export const deleteUser = async (req, res, next) => {
 			.json({ message: `User ${id} deleted successfully` });
 	} catch (error) {
 		return res.status(400).json(error);
+	}
+};
+
+//@desc    login user
+//@route   POST /user/login
+export const loginUser = async (req, res, next) => {
+	const { email, password } = req.body;
+	try {
+		const user = await User.findOne({
+			where: {
+				email,
+			},
+		});
+
+		if (!user) {
+			const error = new Error("Invalid email.");
+			error.status = 401;
+			return next(error);
+		}
+
+		if (user.password !== password) {
+			const error = new Error("Invalid password.");
+			error.status = 401;
+			return next(error);
+		}
+
+		return res.status(200).json(user);
+	} catch (error) {
+		return res.status(500).json(error);
 	}
 };
 

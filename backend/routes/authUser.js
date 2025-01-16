@@ -4,6 +4,7 @@ import {
 	getUser,
 	deleteUser,
 	createUser,
+	loginUser,
 } from "../controllers/authUserController.js";
 
 const router = express.Router();
@@ -17,5 +18,8 @@ router.post("/signup", createUser);
 
 // DELETE Delete user
 router.delete("/:id", deleteUser);
+
+// user login
+router.post("/login", loginUser);
 
 export default router;
