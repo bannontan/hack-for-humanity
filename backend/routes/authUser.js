@@ -6,11 +6,12 @@ import {
 	createUser,
 	loginUser,
 } from "../controllers/authUserController.js";
+import { authenticate } from "../middlewares/authenticationMiddleware.js";
 
 const router = express.Router();
 
 // GET Get user
-router.get("/:id", getUser);
+router.get("/:id", authenticate, getUser);
 
 // Sign up user
 // POST Create user

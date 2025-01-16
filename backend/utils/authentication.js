@@ -4,28 +4,21 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Create JWT Token
-export function generateToken() {
-	// Temporary payload for testing purposes.
-	// TODO: need to replace with calls to user data
+export function generateToken(req, res) {
+	const { id, email, password, role } = req.body;
 	const payload = {
-		id: 1,
-		email: "admin@testing.com",
-		password: "admin",
-		role: "admin",
+		id: id,
+		email: email,
+		password: password,
+		role: role,
 	};
 
 	const token = jwt.sign(payload, process.env.JWT_SECRET, {
 		expiresIn: "12h",
 	});
-	console.log(token);
 
-	// For testing only to verify the token information. To be removed.
-	const decoded = jwt.verify(token, process.env.JWT_SECRET);
-	console.log(
-		`DECODED: ${decoded.id} ${decoded.email} ${decoded.role} ${decoded.password}`
-	);
-
-	return token;
+	req.session.token = token;
+	console.log("Token generated and stored in session");
 }
 
 // Verify and Authorize Token
@@ -47,7 +40,3 @@ export function verifyToken(token, requiredRole = null) {
 		return null;
 	}
 }
-
-const token = generateToken();
-verifyToken(token, "admin");
-verifyToken(token, "user");

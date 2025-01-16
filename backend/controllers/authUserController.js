@@ -1,6 +1,8 @@
 import User from "../models/User.js";
 import { Sequelize } from "sequelize";
 
+import { generateToken } from "../utils/authentication.js";
+
 // @desc	Create a new user
 // @route	POST /user/signup
 export const createUser = async (req, res, next) => {
@@ -30,6 +32,9 @@ export const createUser = async (req, res, next) => {
 		});
 
 		await newUser.save();
+
+		// Generate token
+		generateToken(req, res);
 
 		return res.status(200).json({ message: "User created successfully" });
 	} catch (error) {
@@ -100,6 +105,9 @@ export const loginUser = async (req, res, next) => {
 			error.status = 401;
 			return next(error);
 		}
+
+		// Generate token
+		generateToken(req, res);
 
 		return res.status(200).json(user);
 	} catch (error) {
