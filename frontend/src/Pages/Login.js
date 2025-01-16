@@ -23,16 +23,15 @@ const Login = () => {
         },
         body: JSON.stringify({ id, password }),
       });
-      console.log('1');
+      console.log(id);
+      console.log(password);
 
       if (!response.ok) {
         const { message } = await response.json();
         setErrorMessage(message || 'Invalid login credentials');
-        console.log('2');
         return;
       }
 
-      console.log('3');
       const data = await response.json();
       console.log(data);
       if (data.bool && data.role === 'admin') {
