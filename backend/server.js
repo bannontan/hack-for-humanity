@@ -4,6 +4,7 @@ import session from "express-session";
 
 import authUser from "./routes/authUser.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
+import { authenticate } from "./middlewares/authenticationMiddleware.js";
 
 dotenv.config();
 
@@ -22,10 +23,11 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res, next) => {
+app.get("/", authenticate, (req, res, next) => {
 	res.send("Hello World");
 });
 
+// Routes to login and signup
 app.use("/user", authUser);
 
 app.use(errorHandler);

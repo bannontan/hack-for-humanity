@@ -5,10 +5,9 @@ dotenv.config();
 
 // Create JWT Token
 export function generateToken(req, res) {
-	const { id, email, password, role } = req.body;
+	const { id, password, role } = req.body;
 	const payload = {
 		id: id,
-		email: email,
 		password: password,
 		role: role,
 	};

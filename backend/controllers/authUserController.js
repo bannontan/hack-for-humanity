@@ -6,7 +6,7 @@ import { generateToken } from "../utils/authentication.js";
 // @desc	Create a new user
 // @route	POST /user/signup
 export const createUser = async (req, res, next) => {
-	const { id, username, email, password, role } = req.body;
+	const { id, username, password, role } = req.body;
 	try {
 		// Check if id or email already exists in the database
 		const existingUser = await User.findOne({
@@ -26,7 +26,6 @@ export const createUser = async (req, res, next) => {
 		const newUser = User.build({
 			id,
 			username,
-			email,
 			password,
 			role,
 		});
@@ -86,16 +85,16 @@ export const deleteUser = async (req, res, next) => {
 //@desc    login user
 //@route   POST /user/login
 export const loginUser = async (req, res, next) => {
-	const { email, password } = req.body;
+	const { id, password } = req.body;
 	try {
 		const user = await User.findOne({
 			where: {
-				email,
+				id,
 			},
 		});
 
 		if (!user) {
-			const error = new Error("Invalid email.");
+			const error = new Error("Invalid id.");
 			error.status = 401;
 			return next(error);
 		}
@@ -106,10 +105,13 @@ export const loginUser = async (req, res, next) => {
 			return next(error);
 		}
 
+		const role = user.role;
+		req.body.role = role;
+
 		// Generate token
 		generateToken(req, res);
 
-		return res.status(200).json(user);
+		return res.status(200).json({ ...user.dataValues, bool: true });
 	} catch (error) {
 		return res.status(500).json(error);
 	}
