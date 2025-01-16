@@ -127,11 +127,35 @@ export function deleteAllUsers() {
 
 // Add admin user
 export async function addAdminUser() {
-	await createUser(
-		"1",
-		"admin",
-		"admin@testing.com",
-		"adminTesting",
-		"admin"
-	);
+	const id = "1";
+	const username = "admin";
+	const password = "adminTesting";
+	const role = "admin";
+	try {
+		// Check if id or email already exists in the database
+		const existingUser = await User.findOne({
+			where: {
+				[Sequelize.Op.or]: [{ id: id }],
+			},
+		});
+
+		if (existingUser) {
+			const error = new Error(
+				"User with this ID or email already exists."
+			);
+			error.status = 400;
+			return next(error);
+		}
+
+		const newUser = User.build({
+			id,
+			username,
+			password,
+			role,
+		});
+
+		await newUser.save();
+	} catch (error) {
+		return `Error: ${error}`;
+	}
 }

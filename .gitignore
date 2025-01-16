@@ -2,3 +2,5 @@ users.sqlite
 
 .env
 node_modules
+
+users.sqlite
