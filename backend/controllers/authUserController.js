@@ -6,12 +6,12 @@ import { generateToken } from "../utils/authentication.js";
 // @desc	Create a new user
 // @route	POST /user/signup
 export const createUser = async (req, res, next) => {
-	const { id, username, password, role } = req.body;
+	const { id, username, age, password, role } = req.body;
 	try {
 		// Check if id or email already exists in the database
 		const existingUser = await User.findOne({
 			where: {
-				[Sequelize.Op.or]: [{ id: id }, { email: email }],
+				[Sequelize.Op.or]: [{ id: id }],
 			},
 		});
 
@@ -26,6 +26,7 @@ export const createUser = async (req, res, next) => {
 		const newUser = User.build({
 			id,
 			username,
+			age,
 			password,
 			role,
 		});
@@ -129,6 +130,7 @@ export function deleteAllUsers() {
 export async function addAdminUser() {
 	const id = "1";
 	const username = "admin";
+	const age = 0;
 	const password = "adminTesting";
 	const role = "admin";
 	try {
@@ -150,6 +152,7 @@ export async function addAdminUser() {
 		const newUser = User.build({
 			id,
 			username,
+			age,
 			password,
 			role,
 		});
