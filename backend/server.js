@@ -5,7 +5,11 @@ import { fileURLToPath } from "url"; // utility to help with file paths
 import path from "path"; // utility to help with file paths
 import cors from "cors";
 
+// Import routes
 import authUser from "./routes/authUser.js";
+import map from "./routes/map.js";
+
+// Import middleware
 import errorHandler from "./middlewares/errorMiddleware.js";
 import { authenticate } from "./middlewares/authenticationMiddleware.js";
 
@@ -34,6 +38,7 @@ app.set("view engine", "ejs");
 // Specify the directory for EJS templates (default is `views`)
 app.set("views", "./views");
 
+// Use session middleware to save JWT token
 app.use(
 	session({
 		secret: process.env.JWT_SECRET, // Use a secure secret key
@@ -46,15 +51,13 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// // Set a static folder
-app.use(express.static(path.join(__dirname, "public")));
-
-app.get("/", authenticate, (req, res, next) => {
-	res.render("test");
+app.get("/", (req, res, next) => {
+	res.status.json(`Server is running on port ${port}`);
 });
 
 // Routes to login and signup
 app.use("/user", authUser);
+app.use("/map", authenticate, map);
 
 app.use(errorHandler);
 

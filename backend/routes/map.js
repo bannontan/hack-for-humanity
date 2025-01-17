@@ -4,7 +4,7 @@ import { postLoc, getLocs, updateLoc, deleteLoc } from '../controllers/mapContro
 const router = express.Router();
 
 // POST Create location
-router.post('/user/:id/loc', postLoc);
+router.post('/user/loc', postLoc);
 
 // GET Get all locations
 router.get('/loc', getLocs);

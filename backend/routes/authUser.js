@@ -18,7 +18,7 @@ router.get("/:id", authenticate, getUser);
 router.post("/signup", createUser);
 
 // DELETE Delete user
-router.delete("/:id", deleteUser);
+router.delete("/:id", authenticate, deleteUser);
 
 // user login
 router.post("/login", loginUser);

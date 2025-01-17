@@ -4,7 +4,7 @@ import User from '../models/User.js';
 import geocodeLocation from '../utils/geocode.js';
 
 // @desc	Post location to db
-// @route	POST /map/user/:id/location
+// @route	POST /map/user/location
 export const postLoc = async (req, res, next) => {
 	const { address, description, radius, type, userId } = req.body;
 	const { lat, lng } = await geocodeLocation(address);
