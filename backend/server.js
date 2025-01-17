@@ -4,6 +4,7 @@ import session from "express-session";
 import { fileURLToPath } from "url"; // utility to help with file paths
 import path from "path"; // utility to help with file paths
 import cors from "cors";
+import "./utils/db/init.js";
 
 // Import routes
 import authUser from "./routes/authUser.js";
@@ -52,7 +53,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res, next) => {
-	res.status.json(`Server is running on port ${port}`);
+	res.status(200).json(`Server is running on port ${port}`);
 });
 
 // Routes to login and signup
