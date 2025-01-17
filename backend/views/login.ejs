@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Login</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				margin: 0;
+				background-color: #f4f4f4;
+			}
+			.login-container {
+				width: 300px;
+				padding: 20px;
+				background: #fff;
+				border-radius: 10px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+			.login-container h1 {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+			.form-group {
+				margin-bottom: 15px;
+			}
+			.form-group label {
+				display: block;
+				margin-bottom: 5px;
+			}
+			.form-group input {
+				width: 100%;
+				padding: 10px;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+			}
+			.form-group button {
+				width: 100%;
+				padding: 10px;
+				border: none;
+				border-radius: 5px;
+				background: #007bff;
+				color: white;
+				font-size: 16px;
+				cursor: pointer;
+			}
+			.form-group button:hover {
+				background: #0056b3;
+			}
+			.error {
+				color: red;
+				text-align: center;
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="login-container">
+			<h1>Login</h1>
+			<form id="loginForm">
+				<div class="form-group">
+					<label for="id">User ID</label>
+					<input
+						type="text"
+						id="id"
+						name="id"
+						placeholder="Enter your user ID"
+						required
+					/>
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						placeholder="Enter your password"
+						required
+					/>
+				</div>
+				<div class="form-group">
+					<button type="submit">Login</button>
+				</div>
+			</form>
+			<div id="message" class="error"></div>
+		</div>
+		<script>
+			// Attach an event listener to the form
+			document
+				.getElementById("loginForm")
+				.addEventListener("submit", async (event) => {
+					event.preventDefault(); // Prevent form submission
+
+					// Get the form data
+					const id = document.getElementById("id").value;
+					const password = document.getElementById("password").value;
+
+					// Call the login API
+					try {
+						const response = await fetch(
+							"http://localhost:8080/user/login",
+							{
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								body: JSON.stringify({ id, password }),
+							}
+						);
+
+						const data = await response.json();
+
+						if (response.ok) {
+							// Login successful, redirect or handle success
+							alert("Login successful!");
+							window.location.href = "/"; // Change this to the desired redirect URL
+						} else {
+							// Display error message
+							document.getElementById("message").textContent =
+								data.message || "Login failed.";
+						}
+					} catch (error) {
+						// Handle network errors
+						document.getElementById("message").textContent =
+							"An error occurred. Please try again.";
+						console.error("Error:", error);
+					}
+				});
+		</script>
+	</body>
+</html>
