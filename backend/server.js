@@ -5,8 +5,11 @@ import { fileURLToPath } from "url"; // utility to help with file paths
 import path from "path"; // utility to help with file paths
 
 import authUser from "./routes/authUser.js";
+import map from "./routes/map.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
 import { authenticate } from "./middlewares/authenticationMiddleware.js";
+import "./utils/db/init.js"; // Initializes Sequelize models and associations
+
 // import initMap from "./views/js/main.js";
 
 dotenv.config();
@@ -37,11 +40,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // // Set a static folder
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "views/js"))); // Serve JS files
+app.use(express.static(path.join(__dirname, "views"))); // Serve JS files
 
-app.get("/", authenticate, (req, res, next) => {
-	res.render("test");
+// API endpoint to provide map data
+app.get('/api/map-data', (req, res) => {
+    res.json({
+        apiKey: process.env.GOOGLE_MAPS_API_KEY, // Use environment variables for security
+        location: { lat: -34.397, lng: 150.644 },
+        zoom: 8,
+    });
+});
+
+app.get("/map", (req, res, next) => {
+	res.render("map");
 });
 
 app.get("/login", (req, res, next) => {
@@ -50,6 +61,8 @@ app.get("/login", (req, res, next) => {
 
 // Routes to login and signup
 app.use("/user", authUser);
+
+app.use("/map", map);
 
 app.use(errorHandler);
 
