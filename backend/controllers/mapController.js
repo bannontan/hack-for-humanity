@@ -1,14 +1,17 @@
 import Locations from '../models/Locations.js';
 import User from '../models/User.js';
 
+import geocodeLocation from '../utils/geocode.js';
+
 // @desc	Post location to db
 // @route	POST /map/user/:id/location
 export const postLoc = async (req, res, next) => {
-	const { lat, long, description, radius, type, userId } = req.body;
+	const { address, description, radius, type, userId } = req.body;
+	const { lat, lng } = await geocodeLocation(address);
 	try {
 		const newLoc = Locations.build({
 			lat,
-			long,
+			lng,
 			description,
 			radius,
 			type,
@@ -18,7 +21,7 @@ export const postLoc = async (req, res, next) => {
 		await newLoc.save();
 		return res.status(201).json(newLoc);
 	} catch (error) {
-		console.log(lat, long, description, radius, type, userId);
+		console.log(lat, lng, description, radius, type, userId);
 		return res.status(500).json(error);
 	}
 };
@@ -62,14 +65,14 @@ export const getLocs = async (req, res, next) => {
 // @route	Update /map/loc/:id
 export const updateLoc = async (req, res, next) => {
 	const { id } = req.params;
-	const { lat, long, description, radius, type, userId } = req.body;
+	const { lat, lng, description, radius, type, userId } = req.body;
 	try {
 		const loc = await Locations.findOne({ where: { id } });
 		if (!loc) {
 			return res.status(404).json({ message: "Location not found" });
 		}
 		loc.lat = lat;
-		loc.long = long;
+		loc.lng = lng;
 		loc.description = description;
 		loc.radius = radius;
 		loc.type = type;

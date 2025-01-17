@@ -6,7 +6,7 @@ const Locations = sequelize.define("Locations", {
 		type: DataTypes.DECIMAL,
 		allowNull: false,
 	},
-	long: {
+	lng: {
 		type: DataTypes.DECIMAL,
 		allowNull: false,
 	},
