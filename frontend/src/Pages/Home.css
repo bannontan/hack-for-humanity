@@ -1,64 +1,105 @@
-/* Home.css */
-
-/* Home page container */
 .home-page {
-    background-color: #f0f4f8; /* Soft background color */
-    padding-left: 40px;
-    padding-right: 40px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean and modern font */
-    color: #333; /* Default text color */
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+  }
+  
+  .content h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Map Placeholder Styling */
+  .map-placeholder {
+    width: 100%;
+    height: 300px;
+    background-color: #e0e0e0;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
-}
-
-/* Content container for centered text with a specific width */
-.content {
-    background-color: white;
-    padding: 40px;
-    max-width: 600px; /* Set max-width for larger screens */
-    width: 90%; /* This will make the content responsive */
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    text-align: center; /* Center the text */
-    margin: 0 auto; /* This ensures the content is centered horizontally */
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Heading styling */
-.home-page h1 {
-    font-size: 36px; /* Larger heading */
-    font-weight: 700; /* Bold font weight */
-    color: #2C3E50; /* Dark blue color */
-    margin-bottom: 20px; /* Space below heading */
-    letter-spacing: 1px; /* Slight spacing between letters */
-}
-
-/* Paragraph styling */
-.home-page p {
-    font-size: 18px; /* Slightly larger paragraph text */
-    color: #555; /* Medium gray for text */
-    line-height: 1.6; /* Line height for better readability */
-    margin-bottom: 30px; /* Space below paragraph */
-}
-
-/* Responsive design adjustments */
-@media (max-width: 600px) {
-    .home-page h1 {
-        font-size: 28px; /* Slightly smaller heading on mobile */
-    }
-
-    .home-page p {
-        font-size: 16px; /* Smaller font size for better fit on mobile */
-    }
-
-    .content {
-        padding: 30px; /* Reduced padding on mobile */
-    }
-}
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Event Table Styling */
+  .event-table-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .event-table-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .event-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  
+  .event-table th, .event-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .event-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .event-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .event-table td {
+    text-align: center;
+  }
+  
+  /* Severity Icons */
+  .high-severity {
+    color: #ff0000; /* Red */
+  }
+  
+  .medium-severity {
+    color: #ff8c00; /* Orange */
+  }
+  
+  .low-severity {
+    color: #32cd32; /* Green */
+  }
+  
+  /* Icons styling */
+  .event-table td svg {
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  
+  /* Custom styling for the severity icons */
+  .high-severity-icon {
+    color: #ff0000; /* Red for High severity */
+  }
+  
+  .medium-severity-icon {
+    color: #ff8c00; /* Orange for Medium severity */
+  }
+  
+  .low-severity-icon {
+    color: #32cd32; /* Green for Low severity */
+  }
+  
+  .event-table-container {
+    margin-top: 20px;
+  }
+  

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../UserContext'; // Import the context
 import './Login.css';
 
 const Login = () => {
-  const [id, setId] = useState(''); // Updated: 'id' instead of 'email'
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const { setUser } = useUser(); // Access the setUser method
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,8 +25,6 @@ const Login = () => {
         },
         body: JSON.stringify({ id, password }),
       });
-      console.log(id);
-      console.log(password);
 
       if (!response.ok) {
         const { message } = await response.json();
@@ -33,9 +33,9 @@ const Login = () => {
       }
 
       const data = await response.json();
-      console.log(data);
       if (data.bool && data.role === 'admin') {
-        navigate('/home', { state: { username: data.username } });
+        setUser({ username: data.username }); // Save the user info in context
+        navigate('/home');
       } else {
         setErrorMessage('Access denied: You are not an admin');
       }
@@ -50,10 +50,10 @@ const Login = () => {
       {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleLogin}>
         <input
-          type="text" // Updated: Changed type to 'text' for ID
-          placeholder="Enter your ID" // Updated: Placeholder reflects 'ID'
+          type="text"
+          placeholder="Enter your ID"
           value={id}
-          onChange={(e) => setId(e.target.value)} // Updated: Updates 'id' state
+          onChange={(e) => setId(e.target.value)}
           required
         />
         <input

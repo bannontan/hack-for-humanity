@@ -1,0 +1,32 @@
+.bottom-navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #2d3e50;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0 10px 10px;
+    z-index: 1000;
+  }
+  
+  .bottom-navbar button {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    color: #ececec;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .bottom-navbar button:hover {
+    color: #007bff;
+  }
+  
+  .bottom-navbar button svg {
+    font-size: 20px;
+  }
+  
