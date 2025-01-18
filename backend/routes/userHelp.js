@@ -4,8 +4,7 @@ import {
 	getHelpReqs,
 	deleteHelpReq,
 	updateHelpReq,
-} from "../controllers/mapController.js";
-import { get } from "request";
+} from "../controllers/helpController.js";
 
 const router = express.Router();
 

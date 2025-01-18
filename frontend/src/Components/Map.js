@@ -48,6 +48,8 @@ function AddPin(lat, lng, title = "New Marker") {
 		return;
 	}
 
+	
+
 	const position = { lat, lng };
 	const marker = new window.google.maps.Marker({
 		position,

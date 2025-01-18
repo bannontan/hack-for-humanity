@@ -14,8 +14,8 @@ const AdminPost = sequelize.define("AdminPost", {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
-	severity: {
-		type: DataTypes.STRING,
+	waitingTime: {
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
 	description: {
@@ -30,9 +30,16 @@ const AdminPost = sequelize.define("AdminPost", {
 		type: DataTypes.DECIMAL,
 		allowNull: false,
 	},
-	waitingTime: {
-		type: DataTypes.INTEGER,
-		allowNull: false,
+	adminId: {
+		// Foreign key for linking to User
+		type: DataTypes.STRING,
+		allowNull: true, // Allows locations with no associated user
+		references: {
+			model: "Users", // Table name for User model
+			key: "id", // Foreign key references User's id
+		},
+		onDelete: "SET NULL", // Handle cascade rules
+		onUpdate: "CASCADE",
 	},
 });
 

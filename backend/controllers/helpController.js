@@ -6,7 +6,7 @@ import geocodeLocation from "../utils/geocode.js";
 // @desc	Post help request to UserHelp.db
 // @route	POST /map/user/location
 export const postHelpReq = async (req, res, next) => {
-	const { address, description, radius, type, userId } = req.body;
+	const { address, description, type, userId } = req.body;
 	const { lat, lng } = await geocodeLocation(address);
 	try {
 		const newUserHelpReq = UserHelp.build({
