@@ -19,6 +19,11 @@ const UserHelp = sequelize.define("UserHelp", {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
+	status: {
+		type: DataTypes.STRING,
+		allowNull: false,
+		defaultValue: "Pending",
+	},
 	userId: {
 		// Foreign key for linking to User
 		type: DataTypes.STRING,
