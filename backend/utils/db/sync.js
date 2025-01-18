@@ -1,6 +1,6 @@
 import sequelize from "./connection.js";
 import User from "../../models/User.js"; // Needed to sync to sequelize
-import Locations from "../../models/Locations.js"; // Needed to sync to sequelize
+import UserHelp from "../../models/UserHelp.js"; // Needed to sync to sequelize
 import { addAdminUser } from "../../controllers/authUserController.js";
 
 (async () => {

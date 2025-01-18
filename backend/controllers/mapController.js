@@ -1,100 +1,102 @@
-import Locations from '../models/Locations.js';
-import User from '../models/User.js';
+import UserHelp from "../models/UserHelp.js";
+import User from "../models/User.js";
 
-import geocodeLocation from '../utils/geocode.js';
+import geocodeLocation from "../utils/geocode.js";
 
-// @desc	Post location to db
+// @desc	Post help request to UserHelp.db
 // @route	POST /map/user/location
-export const postLoc = async (req, res, next) => {
+export const postHelpReq = async (req, res, next) => {
 	const { address, description, radius, type, userId } = req.body;
 	const { lat, lng } = await geocodeLocation(address);
 	try {
-		const newLoc = Locations.build({
+		const newUserHelpReq = UserHelp.build({
 			lat,
 			lng,
 			description,
-			radius,
 			type,
 			userId,
 		});
 
-		await newLoc.save();
-		return res.status(201).json(newLoc);
+		await newUserHelpReq.save();
+		return res.status(201).json(newUserHelpReq);
 	} catch (error) {
-		console.log(lat, lng, description, radius, type, userId);
+		console.log(lat, lng, description, type, userId);
 		return res.status(500).json(error);
 	}
 };
 
-// @desc	Get all locations from db
+// @desc	Get all user help requests from UserHelp.db
 // @route	GET /map/loc
-export const getLocs = async (req, res, next) => {
-    const role = req.body.role;
-    let locations;
+export const getHelpReqs = async (req, res, next) => {
+	const role = req.body.role;
+	let userHelpReqs;
 
-    try {
-        if (role !== "admin") {
-            // Fetch locations where associated User role is "admin"
-            locations = await Locations.findAll({
-                include: [
-                    {
-                        model: User,
-                        as: "user", // Alias defined in the association
-                        where: { role: "admin" }, // Filter based on User role
-                    },
-                ],
-            });
-        } else {
-            // Fetch all locations regardless of User role
-            locations = await Locations.findAll({
-                include: [
-                    {
-                        model: User,
-                        as: "user", // Alias defined in the association
-                    },
-                ],
-            });
-        }
-        return res.status(200).json(locations);
-    } catch (error) {
-        return res.status(500).json({ message: "Failed to fetch locations", error });
-    }
+	try {
+		if (role !== "admin") {
+			// Fetch UserHelp where associated User role is "admin"
+			userHelpReqs = await UserHelp.findAll({
+				include: [
+					{
+						model: User,
+						as: "user", // Alias defined in the association
+						where: { role: "admin" }, // Filter based on User role
+					},
+				],
+			});
+		} else {
+			// Fetch all UserHelp regardless of User role
+			userHelpReqs = await UserHelp.findAll({
+				include: [
+					{
+						model: User,
+						as: "user", // Alias defined in the association
+					},
+				],
+			});
+		}
+		return res.status(200).json(userHelpReqs);
+	} catch (error) {
+		return res
+			.status(500)
+			.json({ message: "Failed to fetch userHelpReqs", error });
+	}
 };
 
-// @desc	Update location in db using location id
+// @desc	Update help request in UserHelp.db using id (primary key)
 // @route	Update /map/loc/:id
-export const updateLoc = async (req, res, next) => {
+export const updateHelpReq = async (req, res, next) => {
 	const { id } = req.params;
-	const { lat, lng, description, radius, type, userId } = req.body;
+	const { lat, lng, description, type, userId } = req.body;
 	try {
-		const loc = await Locations.findOne({ where: { id } });
+		const userHelpReq = await UserHelp.findOne({ where: { id } });
 		if (!loc) {
 			return res.status(404).json({ message: "Location not found" });
 		}
-		loc.lat = lat;
-		loc.lng = lng;
-		loc.description = description;
-		loc.radius = radius;
-		loc.type = type;
-		loc.userId = userId;
+		userHelpReq.lat = lat;
+		userHelpReq.lng = lng;
+		userHelpReq.description = description;
+		userHelpReq.type = type;
+		userHelpReq.userId = userId;
 
-		await loc.save();
-		return res.status(200).json(loc);
+		await userHelpReq.save();
+		return res.status(200).json(userHelpReq);
 	} catch (error) {
 		return res.status(500).json(error);
 	}
 };
 
-// @desc	Delete location in db using location id
+// @desc	Delete help request in UserHelp.db using id (primary key)
 // @route	Delete /map/loc/:id
-export const deleteLoc = async (req, res, next) => {
+export const deleteHelpReq = async (req, res, next) => {
 	const { id } = req.params;
 	try {
-		const loc = await Locations.findOne({ where: { id } });
-		if (!loc) {
-			return res.status(404).json({ message: "Location not found" });
+		const userHelpReq = await UserHelp.findOne({ where: { id } });
+		if (!userHelpReq) {
+			return res
+				.status(404)
+				.json({ message: "User help request not found" });
 		}
-		await loc.destroy();
+		await userHelpReq.destroy();
 		return res.status(204).json();
 	} catch (error) {
 		return res.status(500).json(error);
