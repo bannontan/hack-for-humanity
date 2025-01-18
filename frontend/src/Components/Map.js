@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 let map;
 const markers = [];
 
 async function LoadMap() {
 	try {
-		const response = await fetch("/api/map-data");
-		if (!response.ok) throw new Error("Failed to fetch map data");
-		// const { apiKey, location, zoom } = await response.json();
-		const apiKey = "ENTER API KEY HERE";
+		console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
+		const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 		const location = { lat: 37.7749, lng: -122.4194 };
 		const zoom = 8;
 		const script = document.createElement("script");
@@ -69,10 +70,7 @@ const Map = () => {
 	}, []);
 
 	return (
-		<div>
-			<h1>Map Example</h1>
-			<div id="map" style={{ height: "500px", width: "100%" }}></div>
-		</div>
+		<div id="map" style={{ height: "100%", width: "100%" }}></div>
 	);
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import BottomNavBar from '../Components/BottomNavbar';
+import Map from '../Components/Map';
 import { useUser } from '../UserContext';
 import { FaExclamationCircle, FaFire, FaWater, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import './Home.css';
@@ -26,7 +27,7 @@ function Home() {
 
         {/* Placeholder for the map */}
         <div className="map-placeholder">
-          <p>Map will be displayed here (placeholder)</p>
+          <Map />
         </div>
 
         {/* Table of events */}
