@@ -14,11 +14,7 @@ const Locations = sequelize.define("Locations", {
 		type: DataTypes.STRING,
 		allowNull: true,
 	},
-	radius: {
-		type: DataTypes.FLOAT,
-		allowNull: false,
-	},
-	type: {
+	type: { // helpType
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
