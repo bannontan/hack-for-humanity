@@ -1,128 +1,134 @@
+/* General Page Styling */
 .home-page {
-    font-family: Arial, sans-serif;
-    color: #333;
-    background-color: #f9f9f9;
-    overflow-y: scroll;
-    display: flex;
-  }
-
-  .content {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding-bottom: 100px; /* Adjust this to the height of your navbar */
-  }
-  
-  
-  .content h1 {
-    padding-left: 20px;
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-  
-  .content p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    padding-left: 20px;
-  }
-  
-  /* Map Placeholder Styling */
-  .map-placeholder {
-    width: 80%; /* Adjust the width to control the map's size */
-    height: 400px; /* Adjust the height as needed */
-    background-color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    margin: 20px auto; /* This ensures it is centered horizontally */
-    position: relative;
-    overflow: hidden; /* Prevent scrolling */
-  }
-  
-  
-  /* Event Table Styling */
-  .event-table-container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .event-table-container h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .event-table {
-    width: 100%; /* Adjust to fit content */
-    max-width: 1000px; /* Limit max width */
-    margin: 0 auto; /* Center table horizontally */
-    border-collapse: collapse;
-    text-align: center;
-    table-layout: fixed;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
 }
-  
-  .event-table th, .event-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center; /* Align header to the left */
-  }  
-  
-  .event-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .event-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .event-table .di {
-    text-align: left; /* Align this particular cell content to the left */
-    padding-left: 50px; /* Add some padding to the left */
-  }
-  
-  .event-table td {
-    text-align: center; /* Keep the rest of the table cells centered */
-  }
-  
 
-  /* Severity Icons */
-  .high-severity {
-    color: #ff0000; /* Red */
-  }
-  
-  .medium-severity {
-    color: #ff8c00; /* Orange */
-  }
-  
-  .low-severity {
-    color: #32cd32; /* Green */
-  }
-  
-  /* Icons styling */
-  .event-table td svg {
-    margin-right: 10px;
-    font-size: 1.2rem;
-  }
-  
-  /* Custom styling for the severity icons */
-  .high-severity-icon {
-    color: #ff0000; /* Red for High severity */
-  }
-  
-  .medium-severity-icon {
-    color: #ff8c00; /* Orange for Medium severity */
-  }
-  
-  .low-severity-icon {
-    color: #32cd32; /* Green for Low severity */
-  }
-  
-  .event-table-container {
-    margin-top: 20px;
-  }
-  
+.content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 100px;
+}
+
+.content h1 {
+  padding-left: 20px;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+/* Map Placeholder Styling */
+.map-placeholder {
+  width: 80%;
+  height: 400px;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  margin: 20px auto;
+}
+
+/* Event Table Styling */
+.event-table-container {
+  width: 100%;
+  border: #333;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.event-table-container h2 {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 20px;
+}
+
+.event-table {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-collapse: collapse; /* Remove space between rows */
+  border-spacing: 0; /* Ensure no extra spacing */
+  border-radius: 20px;  
+  overflow: hidden; /* Hide overflow content */
+}
+
+.event-table th, .event-table td {
+  padding: 15px;
+  text-align: center;
+  background-color: #f4f4f4; /* Light background for cells */
+  font-size: 1.2rem;
+  font-weight:bold;
+}
+
+.event-table th {
+  background-color: #333;
+  color: #fff;
+}
+
+.disaster {
+  border-bottom: 2px solid #ddd; /* Border between rows */
+}
+
+.help-subtable {
+  width: 95%;
+  margin: 0 auto; /* Center the subtable */
+  border-collapse: collapse; /* No gaps between cells */
+}
+
+.help-subtable th, .help-subtable td {
+  padding: 10px;
+  border: 1px solid #ddd; /* Standard border for subtable */
+  font-size: 1rem;
+  font-weight: normal;
+  text-align: center;
+  background-color: #fff; /* White background */
+}
+
+.help-subtable th {
+  background-color: #0073e6; /* Blue header for subtable */
+  color: #fff;
+}
+
+.event-table-container tr.disaster {
+  border-top: 20px solid #ffffff; /* Add a thicker top border for separation between disaster rows */
+}
+
+/* Severity Icons */
+
+.high-severity-icon {
+  color: #e74c3c; /* Bright red */
+}
+
+.medium-severity-icon {
+  color: #f39c12; /* Bright orange */
+}
+
+.low-severity-icon {
+  color: #2ecc71; /* Bright green */
+}
+
+/* Icons for help types */
+.help-icon {
+  font-size: 1.2rem;
+  margin-right: 5px; /* Add space between the icon and text */
+  vertical-align: middle;
+}
+
+/* Numbering style for help rows */
+.help-subtable td:first-child {
+  font-weight: bold;
+  text-align: center;
+  color: #555;
+}

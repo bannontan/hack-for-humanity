@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BottomNavBar from '../Components/BottomNavbar';
 import { useUser } from '../UserContext';
 import './createRequest.css';
@@ -10,10 +10,19 @@ const CreateRequest = () => {
   const [requestType, setRequestType] = useState('');
   const [otherRequest, setOtherRequest] = useState('');
   const [locationInput, setLocationInput] = useState('');
+  const [descriptioninput, setDescriptionInput] = useState('');
+
+  // Prefill name and age if user is logged in
+  useEffect(() => {
+    if (user?.username) {
+      setName(user?.username || ''); // Use `user.name` or an empty string if not present
+      setAge(user?.age || ''); // Use `user.age` or an empty string if not present
+    }
+  }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ name, age, requestType, locationInput });
+    console.log({ name, age, requestType, locationInput, descriptioninput });
   };
 
   return (
@@ -29,22 +38,24 @@ const CreateRequest = () => {
         {!user?.username && (
           <>
             <div className="form-group">
-              <label>Name:</label>
+              <label>Name<span style={{ color: 'red' }}>*</span>:</label>
               <input
                 type="text"
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                disabled={user?.username}
                 required
               />
             </div>
             <div className="form-group">
-              <label>Age:</label>
+              <label>Age<span style={{ color: 'red' }}>*</span>:</label>
               <input
                 type="number"
                 name="age"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
+                disabled={user?.username}
                 required
               />
             </div>
@@ -52,7 +63,7 @@ const CreateRequest = () => {
         )}
 
         <div className="form-group">
-          <label>Request Type:</label>
+          <label>Request Type<span style={{ color: 'red' }}>*</span>:</label>
           <select
             name="requestType"
             value={requestType}
@@ -69,7 +80,7 @@ const CreateRequest = () => {
 
         {requestType === 'Other' && (
           <div className="form-group">
-            <label>Please specify:</label>
+            <label>Please specify<span style={{ color: 'red' }}>*</span>:</label>
             <input
               type="text"
               name="otherRequest"
@@ -81,13 +92,23 @@ const CreateRequest = () => {
         )}
 
         <div className="form-group">
-          <label>Location:</label>
+          <label>Location<span style={{ color: 'red' }}>*</span>:</label>
           <input
             type="text"
             name="location"
             value={locationInput}
             onChange={(e) => setLocationInput(e.target.value)}
             required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Description of help needed:</label>
+          <input
+            type="text"
+            name="description"
+            value={descriptioninput}
+            onChange={(e) => setDescriptionInput(e.target.value)}
           />
         </div>
 
