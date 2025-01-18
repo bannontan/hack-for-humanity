@@ -42,20 +42,20 @@ function Home() {
               </tr>
             </thead>
             <tbody>
-              <tr className="earthquake">
-                <td><FaExclamationCircle /> Earthquake</td>
+              <tr className="disaster">
+                <td className="di"><FaExclamationCircle /> Earthquake</td>
                 <td>San Francisco</td>
                 <td>10 miles away</td>
                 <td className="high-severity">{renderSeverityIcon('High')}</td>
               </tr>
-              <tr className="flooding">
-                <td><FaWater /> Flooding</td>
+              <tr className="disaster">
+                <td className="di"><FaWater /> Flooding</td>
                 <td>New York</td>
                 <td>50 miles away</td>
                 <td className="medium-severity">{renderSeverityIcon('Medium')}</td>
               </tr>
-              <tr className="Fire">
-                <td><FaFire /> Fire</td>
+              <tr className="disaster">
+                <td className="di"><FaFire /> Fire</td>
                 <td>Los Angeles</td>
                 <td>5 miles away</td>
                 <td className="high-severity">{renderSeverityIcon('High')}</td>

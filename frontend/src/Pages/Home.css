@@ -1,11 +1,20 @@
 .home-page {
-    padding: 20px;
     font-family: Arial, sans-serif;
     color: #333;
     background-color: #f9f9f9;
+    overflow-y: scroll;
+    display: flex;
+  }
+
+  .content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 100px; /* Adjust this to the height of your navbar */
   }
   
+  
   .content h1 {
+    padding-left: 20px;
     font-size: 2rem;
     margin-bottom: 10px;
   }
@@ -13,20 +22,24 @@
   .content p {
     font-size: 1.2rem;
     margin-bottom: 20px;
+    padding-left: 20px;
   }
   
   /* Map Placeholder Styling */
   .map-placeholder {
-    width: 100%;
-    height: 300px;
+    width: 80%; /* Adjust the width to control the map's size */
+    height: 400px; /* Adjust the height as needed */
     background-color: #e0e0e0;
     display: flex;
     justify-content: center;
     align-items: center;
     border: 2px dashed #ccc;
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin: 20px auto; /* This ensures it is centered horizontally */
+    position: relative;
+    overflow: hidden; /* Prevent scrolling */
   }
+  
   
   /* Event Table Styling */
   .event-table-container {
@@ -38,20 +51,24 @@
   
   .event-table-container h2 {
     font-size: 1.5rem;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-align: center;
   }
   
   .event-table {
-    width: 100%;
+    width: 100%; /* Adjust to fit content */
+    max-width: 1000px; /* Limit max width */
+    margin: 0 auto; /* Center table horizontally */
     border-collapse: collapse;
-    text-align: left;
-  }
+    text-align: center;
+    table-layout: fixed;
+}
   
   .event-table th, .event-table td {
     padding: 10px;
     border: 1px solid #ddd;
-  }
+    text-align: center; /* Align header to the left */
+  }  
   
   .event-table th {
     background-color: #f4f4f4;
@@ -63,10 +80,16 @@
     background-color: #f1f1f1;
   }
   
-  .event-table td {
-    text-align: center;
+  .event-table .di {
+    text-align: left; /* Align this particular cell content to the left */
+    padding-left: 50px; /* Add some padding to the left */
   }
   
+  .event-table td {
+    text-align: center; /* Keep the rest of the table cells centered */
+  }
+  
+
   /* Severity Icons */
   .high-severity {
     color: #ff0000; /* Red */
