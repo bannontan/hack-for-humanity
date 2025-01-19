@@ -5,25 +5,47 @@ import './createRequest.css';
 
 const CreateRequest = () => {
   const { user } = useUser(); // Access user context
+  const [userId, setUserId] = useState('');
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
-  const [requestType, setRequestType] = useState('');
-  const [otherRequest, setOtherRequest] = useState('');
-  const [locationInput, setLocationInput] = useState('');
-  const [descriptioninput, setDescriptionInput] = useState('');
+  const [type, setRequestType] = useState('');
+  const [address, setAddress] = useState('');
+  const [description, setDescription] = useState('');
 
   // Prefill name and age if user is logged in
   useEffect(() => {
     if (user?.username) {
       setName(user?.username || ''); // Use `user.name` or an empty string if not present
       setAge(user?.age || ''); // Use `user.age` or an empty string if not present
+      setUserId(user?.id || '');
+      console.log('User:', user);
     }
   }, [user]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ name, age, requestType, locationInput, descriptioninput });
+    console.log({ userId, name, age, type, address, description });
+
+    try {
+        const response = await fetch('http://localhost:8080/map/user/loc', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ address, description, type, userId }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Response Data:', data);
+      } catch (error) {
+          console.error('Error occurred:', error);
+      }
   };
+
 
   return (
     <div className="create-request-page">
@@ -65,8 +87,8 @@ const CreateRequest = () => {
         <div className="form-group">
           <label>Request Type<span style={{ color: 'red' }}>*</span>:</label>
           <select
-            name="requestType"
-            value={requestType}
+            name="type"
+            value={type}
             onChange={(e) => setRequestType(e.target.value)}
             required
           >
@@ -74,30 +96,17 @@ const CreateRequest = () => {
             <option value="Medical">Medical</option>
             <option value="Food/Water">Food/Water</option>
             <option value="Firefighter">Firefighter</option>
-            <option value="Other">Other (please specify)</option>
+            <option value="Other">Other (please explain in description)</option>
           </select>
         </div>
-
-        {requestType === 'Other' && (
-          <div className="form-group">
-            <label>Please specify<span style={{ color: 'red' }}>*</span>:</label>
-            <input
-              type="text"
-              name="otherRequest"
-              value={otherRequest}
-              onChange={(e) => setOtherRequest(e.target.value)}
-              required
-            />
-          </div>
-        )}
 
         <div className="form-group">
           <label>Location<span style={{ color: 'red' }}>*</span>:</label>
           <input
             type="text"
             name="location"
-            value={locationInput}
-            onChange={(e) => setLocationInput(e.target.value)}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             required
           />
         </div>
@@ -107,8 +116,8 @@ const CreateRequest = () => {
           <input
             type="text"
             name="description"
-            value={descriptioninput}
-            onChange={(e) => setDescriptionInput(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
