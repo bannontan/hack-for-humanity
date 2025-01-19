@@ -8,7 +8,9 @@ import "./utils/db/init.js";
 
 // Import routes
 import authUser from "./routes/authUser.js";
-import map from "./routes/map.js";
+import map from "./routes/userHelp.js";
+import disaster from "./routes/disaster.js";
+import adminPost from "./routes/adminPost.js";
 
 // Import middleware
 import errorHandler from "./middlewares/errorMiddleware.js";
@@ -26,7 +28,7 @@ const __dirname = path.dirname(__filename);
 // Configure CORS
 const corsOptions = {
 	origin: "http://localhost:3000", // Replace with your frontend's URL
-	methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+	methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], // Allowed HTTP methods
 	allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
 	credentials: true, // Enable sending cookies with CORS requests
 };
@@ -58,7 +60,9 @@ app.get("/", (req, res, next) => {
 
 // Routes to login and signup
 app.use("/user", authUser);
-app.use("/map", authenticate, map);
+app.use("/map", map);
+app.use("/disaster", disaster);
+app.use("/adminpost", adminPost);
 
 app.use(errorHandler);
 

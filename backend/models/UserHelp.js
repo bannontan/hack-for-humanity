@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utils/db/connection.js";
 
-const Locations = sequelize.define("Locations", {
+const UserHelp = sequelize.define("UserHelp", {
 	lat: {
 		type: DataTypes.DECIMAL,
 		allowNull: false,
@@ -14,15 +14,18 @@ const Locations = sequelize.define("Locations", {
 		type: DataTypes.STRING,
 		allowNull: true,
 	},
-	radius: {
-		type: DataTypes.FLOAT,
-		allowNull: false,
-	},
 	type: {
+		// helpType
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
-	userId: { // Foreign key for linking to User
+	status: {
+		type: DataTypes.STRING,
+		allowNull: false,
+		defaultValue: "Pending",
+	},
+	userId: {
+		// Foreign key for linking to User
 		type: DataTypes.STRING,
 		allowNull: true, // Allows locations with no associated user
 		references: {
@@ -34,4 +37,4 @@ const Locations = sequelize.define("Locations", {
 	},
 });
 
-export default Locations;
+export default UserHelp;
