@@ -34,11 +34,12 @@ const Login = () => {
 
       const data = await response.json();
       if (data.bool && data.role === 'admin') {
-        setUser({ username: data.username, id: data.id, age: data.age }); // Save the user info in context
+        setUser({ username: data.username, id: data.id, age: data.age, role: data.role }); // Save the user info in context
+        console.log(data);
+        navigate('/AdminHome');
+      } else {
         console.log(data);
         navigate('/home');
-      } else {
-        setErrorMessage('Access denied: You are not an admin');
       }
     } catch (error) {
       setErrorMessage('An error occurred. Please try again.');

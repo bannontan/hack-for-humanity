@@ -1,9 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './Pages/Home';
+import Home from './Pages/User/UserHome';
 import Login from './Pages/Login';
 import Main from './Pages/Main';
-import CreateRequest from './Pages/createRequest';
+import CreateRequest from './Pages/User/createRequest';
+import AdminHome from './Pages/Admin/AdminHome';
+import AdminRequests from './Pages/Admin/AdminRequests';
+import AdminCreateRequest from './Pages/Admin/AdminCreateHelpEvent';
+// import AdminNotifications from './Pages/Admin/AdminNotifications';
+// import AdminSettings from './Pages/Admin/AdminSettings';
 
 const App = () => {
   return (
@@ -13,6 +18,12 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/createrequest" element={<CreateRequest />} />
+        <Route path="/adminhome" element={<AdminHome />} />
+        <Route path="/adminrequests" element={<AdminRequests />} />
+        <Route path="/admincreaterequest" element={<AdminCreateRequest />} />
+        {/* <Route path="/adminnotifications" element={<AdminNotifications />} /> */}
+        {/* <Route path="/adminsettings" element={<AdminSettings />} /> */}
+
       </Routes>
     </Router>
   );

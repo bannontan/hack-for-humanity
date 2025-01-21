@@ -1,0 +1,138 @@
+/* General Page Styling */
+.home-page {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+  }
+  
+  .content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 100px;
+  }
+  
+  .content h1 {
+    padding-left: 20px;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    text-align: center;
+
+  }
+  
+  /* Map Placeholder Styling */
+  .map-placeholder {
+    width: 80%;
+    height: 400px;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    margin: 20px auto;
+  }
+  
+  /* Event Table Styling */
+  .event-table-container {
+    width: 100%;
+    border: #333;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .event-table-container h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .event-table {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-collapse: collapse; /* Remove space between rows */
+    border-spacing: 0; /* Ensure no extra spacing */
+    border-radius: 20px;  
+    overflow: hidden; /* Hide overflow content */
+  }
+  
+  .event-table th, .event-table td {
+    padding: 15px;
+    text-align: center;
+    background-color: #f4f4f4; /* Light background for cells */
+    font-size: 1.2rem;
+    font-weight:bold;
+  }
+  
+  .event-table th {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .disaster {
+    border-bottom: 2px solid #ddd; /* Border between rows */
+  }
+  
+  .help-subtable {
+    width: 95%;
+    margin: 0 auto; /* Center the subtable */
+    border-collapse: collapse; /* No gaps between cells */
+  }
+  
+  .help-subtable th, .help-subtable td {
+    padding: 10px;
+    border: 1px solid #ddd; /* Standard border for subtable */
+    font-size: 1rem;
+    font-weight: normal;
+    text-align: center;
+    background-color: #fff; /* White background */
+  }
+  
+  .help-subtable th {
+    background-color: #0073e6; /* Blue header for subtable */
+    color: #fff;
+  }
+  
+  .event-table-container tr.disaster {
+    border-top: 20px solid #ffffff; /* Add a thicker top border for separation between disaster rows */
+  }
+  
+  /* Severity Icons */
+  
+  .high-severity-icon {
+    color: #e74c3c; /* Bright red */
+  }
+  
+  .medium-severity-icon {
+    color: #f39c12; /* Bright orange */
+  }
+  
+  .low-severity-icon {
+    color: #2ecc71; /* Bright green */
+  }
+  
+  /* Icons for help types */
+  .help-icon {
+    font-size: 1.2rem;
+    margin-right: 5px; /* Add space between the icon and text */
+    vertical-align: middle;
+  }
+  
+  /* Numbering style for help rows */
+  .help-subtable td:first-child {
+    font-weight: bold;
+    text-align: center;
+    color: #555;
+  }
+  
