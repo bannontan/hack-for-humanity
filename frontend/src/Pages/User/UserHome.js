@@ -1,160 +1,210 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BottomNavBar from '../../Components/BottomNavbar';
 import Map from '../../Components/Map';
 import { useUser } from '../../UserContext';
-import { FaExclamationCircle, FaFire, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
-import { FaPlus , FaUtensils, FaFireExtinguisher, FaUserMd } from 'react-icons/fa';
+import { FaExclamationTriangle, FaFire, FaPlus, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaAmbulance, FaUtensils, FaUserMd, FaClock } from 'react-icons/fa';
 
 import './UserHome.css';
 
 function Home() {
-  const { user } = useUser(); // Access user context
+  const { user } = useUser();
 
-  // Fake disaster data
+  const [activeTab, setActiveTab] = useState('disasters');
+
+  // Fake disaster data with multiple images
   const disasters = [
     {
       id: 1,
       event: 'Earthquake',
       city: 'San Francisco',
-      distance: 10, // Distance in miles
       severity: 'High',
-      help: [
-        { type: 'First Aid', location: 'Central Hospital', distance: 3, waitTime: '10' },
-        { type: 'Water/Food', location: 'Relief Center A', distance: 2, waitTime: '5' },
-      ],
+      description: 'A severe earthquake has struck the area causing significant damage.',
+      images: ['/images/earthquake1.jpg', '/images/earthquake2.jpg'],
     },
     {
       id: 2,
       event: 'Flooding',
       city: 'New York',
-      distance: 50,
       severity: 'Medium',
-      help: [
-        { type: 'Psychological', location: 'Counseling Center B', distance: 7, waitTime: '15' },
-        { type: 'Water/Food', location: 'Relief Center C', distance: 10, waitTime: '20' },
-      ],
+      description: 'Heavy rains have led to flooding in parts of the city.',
+      images: ['/images/flood1.jpg', '/images/flood2.jpg'],
     },
     {
       id: 3,
       event: 'Fire',
       city: 'Los Angeles',
-      distance: 5,
       severity: 'High',
-      help: [
-        { type: 'Firefighter', location: 'Fire Station 1', distance: 1, waitTime: '5' },
-        { type: 'First Aid', location: 'Hospital D', distance: 4, waitTime: '12' },
-      ],
+      description: 'A wildfire is spreading rapidly in the area.',
+      images: ['/images/fire1.jpg', '/images/fire2.jpg'],
     },
   ];
 
-  // Sort disasters by distance (nearest first)
-  const sortedDisasters = disasters.sort((a, b) => a.distance - b.distance);
+  // Fake data for help available
+  const helpList = [
+    {
+      id: 1,
+      type: 'First Aid',
+      location: 'San Francisco',
+      relatedEvent: 'Earthquake',
+      waitingTime: '15 minutes',
+      distance: '1 mile',
+      description: 'First aid and medical assistance available.',
+    },
+    {
+      id: 2,
+      type: 'Water/Food',
+      location: 'New York',
+      relatedEvent: 'Flooding',
+      waitingTime: '30 minutes',
+      distance: '2 miles',
+      description: 'Food and water distribution center',
+    },
+  ];
 
-  // Helper function to render severity icons
-  const renderSeverityIcon = (severity) => {
+  // Helper function to render severity badges
+  const renderSeverityBadge = (severity) => {
     if (severity === 'High') {
-      return <FaFire className="high-severity-icon" />;
+      return <span className="badge high-severity"><FaFire style={{ marginRight: '4px' }} />High</span>;
     }
     if (severity === 'Medium') {
-      return <FaExclamationTriangle className="medium-severity-icon" />;
+      return <span className="badge medium-severity"><FaExclamationTriangle style={{ marginRight: '4px' }} />Medium</span>;
     }
-    return <FaCheckCircle className="low-severity-icon" />;
+    return <span className="badge low-severity"><FaPlus style={{ marginRight: '4px' }} />Low</span>;
   };
 
-  // Map help types to icons
-  const getHelpIcon = (type) => {
-    switch (type) {
+  const renderIcon = (helpType) => {
+    switch (helpType) {
       case 'First Aid':
-        return <FaPlus className="help-icon" />;
+        return <FaAmbulance />;
       case 'Water/Food':
-        return <FaUtensils className="help-icon" />;
-      case 'Firefighter':
-        return <FaFireExtinguisher className="help-icon" />;
-      case 'Psychological':
-        return <FaUserMd className="help-icon" />;
+        return <FaUtensils />;
+      case 'Psychological Support':
+        return <FaUserMd />;
+      case 'Waiting Time':
+        return <FaClock />;
       default:
-        return <FaExclamationCircle className="help-icon" />;
+        return <FaAmbulance />; // Default icon
     }
   };
 
   return (
     <div className="home-page">
-      <div className="content">
-        <h1>Disaster Relief Application</h1>
-        <p> Logged in Profile: {user?.username || 'Guest'}</p>
-        <p>Empowering communities with real-time disaster management solutions.</p>
 
-        {/* Placeholder for the map */}
-        <div className="map-placeholder">
-          <Map />
+      <header className="app-header">
+        <div className="logo">
+          <img src="/images/logo-placeholder.png" alt="App Logo" />
         </div>
+        <h1>REscue</h1>
+        <p className="slogan">Connecting Communities, Empowering Responses</p>
+      </header>
 
-        {/* Table of events */}
-        <div className="event-table-container">
-          <h2>Active Disaster Events</h2>
-          <table className="event-table">
-            <thead>
-              <tr>
-                <th>Event</th>
-                <th>City</th>
-                <th>Distance</th>
-                <th>Severity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedDisasters.map((disaster) => (
-                <React.Fragment key={disaster.id}>
+      <div className="map-section">
+        <Map />
+      </div>
 
-                  {/* Main disaster row */}
-                  <tr className={`disaster`}>
-                      <td className={`${disaster.severity.toLowerCase()}-severity-icon`}>
-                        <FaExclamationCircle /> {disaster.event}
-                      </td>
-                      <td className={`${disaster.severity.toLowerCase()}-severity-icon`}>{disaster.city}</td>
-                      <td className={`${disaster.severity.toLowerCase()}-severity-icon`}>{disaster.distance} miles</td>
-                      <td>{renderSeverityIcon(disaster.severity)}</td>
-                   
-                  </tr>
-
-                  {/* Subtable for help details */}
-                  <tr>
-                    <td colSpan="4">
-                      <table className="help-subtable">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Help Type</th>
-                            <th>Location</th>
-                            <th>Distance (miles)</th>
-                            <th>Waiting Time (mins)</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {disaster.help.map((help, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                {getHelpIcon(help.type)} {help.type}
-                              </td>
-                              <td>{help.location}</td>
-                              <td>{help.distance} miles away</td>
-                              <td>{help.waitTime}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
-
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
+      {/* Tab Bar */}
+      <div className="tab-bar" role="tablist">
+        <div
+          className={`tab ${activeTab === 'disasters' ? 'active-tab' : ''}`}
+          onClick={() => setActiveTab('disasters')}
+          role="tab"
+          aria-selected={activeTab === 'disasters'}
+        >
+          Active Disaster Events
+        </div>
+        <div
+          className={`tab ${activeTab === 'help' ? 'active-tab' : ''}`}
+          onClick={() => setActiveTab('help')}
+          role="tab"
+          aria-selected={activeTab === 'help'}
+        >
+          Help Available
         </div>
       </div>
+
+
+
+      {/* Content */}
+      <section className="content-section">
+        {activeTab === 'disasters' && (
+          <div className="event-list">
+            {disasters.map((disaster) => (
+              <EventCard key={disaster.id} disaster={disaster} renderSeverityBadge={renderSeverityBadge} />
+            ))}
+          </div>
+        )}
+        {activeTab === 'help' && (
+          <div className="help-tab">
+            <div className="help-list">
+              {helpList.map((help) => (
+                <div key={help.id} className="help-card">
+
+                  <div className="help-icon">
+                    {renderIcon(help.type)} <h3>{help.type}</h3>
+                  </div>
+
+                  <div className="help-details">
+                    <p><strong>Location:</strong> {help.location}</p>
+                    <p><strong>Event:</strong> {help.relatedEvent}</p>
+                    <p><strong>Distance:</strong> {help.distance}</p>
+                    <p><strong>Waiting Time:</strong> {help.waitingTime}</p>
+                    <p>----</p>
+                    <p>{help.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+
       <BottomNavBar />
     </div>
   );
 }
+
+const EventCard = ({ disaster, renderSeverityBadge }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handleNext = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === disaster.images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handlePrev = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? disaster.images.length - 1 : prevIndex - 1
+    );
+  };
+
+  return (
+    <div className="event-card">
+      <div className="image-carousel">
+        <button className="arrow-button" onClick={handlePrev}>
+          <FaArrowLeft />
+        </button>
+        <img
+          src={disaster.images[currentImageIndex]}
+          alt={`${disaster.event} image ${currentImageIndex + 1}`}
+          className="event-image"
+        />
+        <button className="arrow-button" onClick={handleNext}>
+          <FaArrowRight />
+        </button>
+      </div>
+      <div className="event-details">
+        <h3>{disaster.event}</h3>
+        <p><strong>Location:</strong> {disaster.city}</p>
+        <p><strong>Severity:</strong> {renderSeverityBadge(disaster.severity)}</p>
+        <p>{disaster.description}</p>
+        <a href={`/disaster/${disaster.id}`} className="help-link">
+          See what help is available
+        </a>
+      </div>
+    </div>
+  );
+};
 
 export default Home;
