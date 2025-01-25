@@ -1,6 +1,7 @@
 import User from "./User.js";
 import UserHelp from "./UserHelp.js";
 import AdminPost from "./AdminPost.js";
+import Disaster from "./Disaster.js";
 
 const defineAssociations = () => {
 	User.hasMany(UserHelp, {
@@ -25,6 +26,18 @@ const defineAssociations = () => {
 		foreignKey: "adminId", // The foreign key in UserHelp
 		targetKey: "id",
 		as: "admin", // Alias for UserHelp request's user
+	});
+
+	Disaster.hasMany(AdminPost, {
+		foreignKey: "disasterName", // The foreign key in Locations
+		sourceKey: "name",
+		as: "adminDisasterPost", // Alias for user’s help request
+	});
+
+	AdminPost.belongsTo(Disaster, {
+		foreignKey: "disasterName", // The foreign key in UserHelp
+		targetKey: "name",
+		as: "adminPost", // Alias for UserHelp request's user
 	});
 };
 

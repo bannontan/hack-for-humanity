@@ -5,10 +5,11 @@ import geocodeLocation from "../utils/geocode.js";
 // @desc	Post disaster information to Disaster.db
 // @route	POST /disaster
 export const postDisaster = async (req, res, next) => {
-	const { event, city, radius, severity, description, address } = req.body;
+	const { name, event, city, radius, severity, description, address } = req.body;
 	const { lat, lng } = await geocodeLocation(address);
 	try {
 		const newDisaster = Disaster.build({
+			name,
 			event,
 			city,
 			radius,
@@ -18,10 +19,11 @@ export const postDisaster = async (req, res, next) => {
 			lng,
 		});
 
+		console.log(newDisaster);
+
 		await newDisaster.save();
 		return res.status(201).json(newDisaster);
 	} catch (error) {
-		console.log(event, city, radius, severity, description, lat, lng);
 		return res.status(500).json(error);
 	}
 };
@@ -43,13 +45,16 @@ export const getDisaster = async (req, res, next) => {
 // @desc	Update disaster information in Disaster.db
 // @route	PATCH /disaster
 export const updateDisaster = async (req, res, next) => {
-	const { event, city, radius, severity, description, address } = req.body;
+	const { name, event, city, radius, severity, description, address } = req.body;
 	const { lat, lng } = await geocodeLocation(address);
 	try {
-		const disasterInfo = await Disaster.findOne({ where: { lat, lng } });
-		if (!lat || !lng) {
+		// const disasterInfo = await Disaster.findOne({ where: { lat, lng } });
+		const disasterInfo = await Disaster.findOne({ where: { name } });
+		// if (!lat || !lng) {
+		if (!name) {
 			return res.status(404).json({ message: "Disaster not found" });
 		}
+		disasterInfo.name = name;
 		disasterInfo.event = event;
 		disasterInfo.city = city;
 		disasterInfo.radius = radius;
@@ -67,11 +72,15 @@ export const updateDisaster = async (req, res, next) => {
 // @desc	Delete disaster information in Disaster.db
 // @route	Delete /disaster
 export const deleteDisaster = async (req, res, next) => {
-	const { address } = req.body;
-	const { lat, lng } = await geocodeLocation(address);
+	// const { address } = req.body;
+	// const { lat, lng } = await geocodeLocation(address);
+	// try {
+	// 	const disasterInfo = await Disaster.findOne({ where: { lat, lng } });
+	// if (!lat || !lng) {
+	const { name } = req.body;
 	try {
-		const disasterInfo = await Disaster.findOne({ where: { lat, lng } });
-		if (!lat || !lng) {
+		const disasterInfo = await Disaster.findOne({ where: { name } });
+		if (!name) {
 			return res
 				.status(404)
 				.json({ message: "Disaster not found" });

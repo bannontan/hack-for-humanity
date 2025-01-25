@@ -6,18 +6,17 @@ import geocodeLocation from "../utils/geocode.js";
 // @route	POST /adminpost/:adminId
 export const postAdminPost = async (req, res, next) => {
 	const adminId = req.params.adminId;
-	const { event, city, helpType, waitingTime, description, address } = req.body;
+	const { helpType, waitingTime, description, address, disasterName } = req.body;
 	const { lat, lng } = await geocodeLocation(address);
 	try {
 		const adminPost = AdminPost.build({
-			event,
-			city,
 			helpType,
 			waitingTime,
 			description,
 			lat,
 			lng,
 			adminId,
+			disasterName,
 		});
 
 		await adminPost.save();
@@ -44,20 +43,19 @@ export const getAdminPost = async (req, res, next) => {
 // @desc	Update admin post information in AdminPost.db
 // @route	PATCH /adminpost
 export const updateAdminPost = async (req, res, next) => {
-	const { event, city, helpType, waitingTime, description, address } = req.body;
+	const { helpType, waitingTime, description, address, disasterName } = req.body;
 	const { lat, lng } = await geocodeLocation(address);
 	try {
 		const adminPost = await AdminPost.findOne({ where: { lat, lng } });
 		if (!lat || !lng) {
 			return res.status(404).json({ message: "Post not found" });
 		}
-		adminPost.event = event;
-		adminPost.city = city;
 		adminPost.helpType = helpType;
 		adminPost.waitingTime = waitingTime;
 		adminPost.description = description;
 		adminPost.lat = lat;
 		adminPost.lng = lng;
+		adminPost.disasterName = disasterName;
 		await adminPost.save();
 		return res.status(200).json(adminPost);
 	} catch (error) {

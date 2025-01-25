@@ -2,14 +2,6 @@ import { DataTypes } from "sequelize";
 import sequelize from "../utils/db/connection.js";
 
 const AdminPost = sequelize.define("AdminPost", {
-	event: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
-	city: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
 	helpType: {
 		type: DataTypes.STRING,
 		allowNull: false,
@@ -37,6 +29,17 @@ const AdminPost = sequelize.define("AdminPost", {
 		references: {
 			model: "Users", // Table name for User model
 			key: "id", // Foreign key references User's id
+		},
+		onDelete: "SET NULL", // Handle cascade rules
+		onUpdate: "CASCADE",
+	},
+	disasterName: {
+		// Foreign key for linking to User
+		type: DataTypes.STRING,
+		allowNull: false, // Allows locations with no associated user
+		references: {
+			model: "Disasters", // Table name for User model
+			key: "name", // Foreign key references User's id
 		},
 		onDelete: "SET NULL", // Handle cascade rules
 		onUpdate: "CASCADE",

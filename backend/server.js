@@ -4,7 +4,7 @@ import session from "express-session";
 import { fileURLToPath } from "url"; // utility to help with file paths
 import path from "path"; // utility to help with file paths
 import cors from "cors";
-import "./utils/db/init.js";
+// import "./utils/db/init.js";
 
 // Import routes
 import authUser from "./routes/authUser.js";
