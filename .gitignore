@@ -1,6 +1,4 @@
 users.sqlite
-
 .env
 node_modules
-
-users.sqlite
+.DS_Store
