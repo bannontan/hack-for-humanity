@@ -11,6 +11,10 @@ import { postHelpReq } from "../../controllers/helpController.js";
 // Initialize associations
 defineAssociations();
 
+
+console.log("UserHelp Associations:", UserHelp.associations);
+
+
 // Sync database models (optional)
 sequelize
 	.sync({ force: true }) // Update tables without dropping data
@@ -95,9 +99,10 @@ const next = mockNext;
 		);
 	} catch (err) {
 		console.error("Error syncing database:", err.message);
-	} finally {
-		await sequelize.close();
-	}
+	} 
+	// finally {
+	// 	await sequelize.close();
+	// }
 })();
 
 
