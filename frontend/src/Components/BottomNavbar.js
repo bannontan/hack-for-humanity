@@ -36,8 +36,8 @@ const BottomNavBar = ({ setShowForm }) => {
             <p>Requests</p>
         </button>
 
-        <button className='nav-item' onClick={() => handleCreateRequestClick()}>
-            <FaPlus size={24} className="plus-icon"/>
+        <button className='nav-item create-btn' onClick={() => handleCreateRequestClick()}>
+            <FaPlus size={24} />
         </button>
 
         <button className='nav-item' onClick={() => navigate(notificationsPath)}>
@@ -49,7 +49,6 @@ const BottomNavBar = ({ setShowForm }) => {
             <FaCog size={24}/>
             <p>Settings</p>
         </button>
-
     </div>
   );
 };
