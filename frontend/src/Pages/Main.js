@@ -25,7 +25,7 @@ const Main = () => {
 					Login
 				</button>
 				<button onClick={handleSkipClick} className="skip-button">
-					Skip to Home Page
+					Guest
 				</button>
 			</div>
 		</div>

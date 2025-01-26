@@ -60,10 +60,9 @@
 
 /* Success Screen Styling */
 .success-screen {
-  background-color: #f9f9f9; /* Light gray background */
-  padding: 40px 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  background-color: #ffffff; /* Light gray background */
+  padding: 0px 20px;
+  padding-bottom:100px;
   text-align: center;
   max-width: 600px;
   margin: 50px auto; /* Centered on the page */
@@ -128,19 +127,9 @@
   color: white; /* White text */
 }
 
-.primary-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
-}
-
 /* Secondary Button */
 .secondary-button {
   background-color: #f8f9fa; /* Light gray */
   color: #333; /* Dark text */
   border: 1px solid #ccc;
-}
-
-.secondary-button:hover {
-  background-color: #e2e6ea; /* Darker gray */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
 }

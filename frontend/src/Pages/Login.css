@@ -1,62 +1,45 @@
-/* Login.css */
-
 /* Login page container */
 .login-page {
     background-color: #ffffff; /* Clean white background */
-    padding-left: 40px;
-    padding-right: 40px;
-    border-radius: 12px; /* Rounded corners for a modern look */
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    width: 90%;
-    max-width: 400px; /* Optimal width for both mobile and desktop */
+    width: 100%;
     text-align: center;
-    border: 1px solid #ddd; /* Light border for separation */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean and professional font */
-    color: #333; /* Dark text for readability */
-    margin: auto; /* Center the container */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Full height of viewport for vertical centering */
+    color: #333; 
 }
 
-/* Logo or Title Section */
 .login-page h1 {
-    font-size: 28px; /* Larger font for title */
-    font-weight: 700; /* Bold weight for emphasis */
-    color: #2C3E50; /* Dark blue for a professional feel */
-    margin-bottom: 30px; /* Space between title and form */
-    letter-spacing: 1px; /* Slightly spaced letters */
+    font-size: 24px;
+    font-weight: 700;
+    color: #2C3E50;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
 }
 
 /* Error message text */
 .login-page p {
     font-size: 14px;
-    color: #e74c3c; /* Red color for error */
+    color: #e74c3c;
     margin-bottom: 25px;
-    font-weight: 500; /* Slightly bolder error text */
+    font-weight: 500;
     display: block;
 }
 
 /* Input fields */
 .login-page input {
-    width: 80%;  /* Restrict input width for better layout */
-    padding: 14px 18px;
-    margin-bottom: 25px; /* Add more space between fields */
-    border: 1px solid #ccc; /* Subtle border for inputs */
-    border-radius: 8px; /* Rounded corners */
-    font-size: 16px; /* Clear font size */
-    background-color: #f9f9f9; /* Light background for inputs */
-    transition: all 0.3s ease-in-out;
+    padding: 10px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px; 
+    background-color: #f9f9f9;
 }
 
 /* Input focus effects */
 .login-page input:focus {
-    border-color: #2980B9; /* Blue border on focus */
+    border-color: #2980B9;
     outline: none;
-    background-color: #fff; /* Lighter background */
-    box-shadow: 0 0 6px rgba(41, 128, 185, 0.2); /* Soft glow */
+    background-color: #fff;
+    box-shadow: 0 0 6px rgba(41, 128, 185, 0.2);
 }
 
 /* Placeholder text */
@@ -64,44 +47,26 @@
     color: #aaa; /* Softer placeholder text */
 }
 
+/* Password container to align the input and icon */
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container .password-toggle {
+    position: absolute;
+    right: 60px;
+    top: 10px;
+}
+
 /* Button Styles */
 .login-page button {
-    width: 80%; /* Full-width buttons */
-    padding: 14px 20px; /* Comfortable padding */
-    font-size: 18px; /* Larger font size for buttons */
-    font-weight: 600; /* Bold font weight */
+    width: 50%;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
     color: white;
-    background-color: #2980B9; /* Professional blue */
+    background-color: #2980B9; 
     border: none;
-    border-radius: 8px; /* Rounded edges */
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    margin-bottom: 20px; /* Space between buttons */
-}
-
-/* Button hover effect */
-.login-page button:hover {
-    background-color: #1A618B; /* Darker blue when hovered */
-}
-
-/* Last button margin reset */
-.login-page button:last-of-type {
-    margin-bottom: 0; /* No margin for the last button */
-}
-
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-    .login-page h1 {
-        font-size: 24px; /* Adjust title font size for smaller screens */
-    }
-
-    .login-page input {
-        font-size: 14px;
-        padding: 12px 16px; /* Slightly smaller padding */
-    }
-
-    .login-page button {
-        font-size: 16px; /* Adjust button font size for mobile */
-        padding: 14px 18px;
-    }
+    border-radius: 8px;
 }

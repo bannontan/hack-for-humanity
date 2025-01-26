@@ -1,0 +1,79 @@
+/* Notifications page container */
+.notifications-page {
+    background-color: #f9f9f9; /* Light background */
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+/* Notification header */
+.notif-header {
+    display: flex;
+    position: sticky;
+    align-items: center;
+    top: 0;
+    border-bottom: 2px solid #007aff; 
+    background-color: #f9f9f9;
+    z-index: 100;
+}
+
+.notif-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    margin-left: 5px;
+    color: #333; /* Dark text for contrast */
+}
+
+.notif-header-icon {
+    font-size: 1.6rem;
+    margin-left: 20px;
+    color: #007aff; /* Blue icon for consistency */
+  }  
+
+/* List of notifications */
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    padding-bottom: 120px;
+    overflow-y: auto;
+}
+
+/* Notification card styles */
+.notification-card {
+    background-color: white;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.notification-icon {
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+
+.notification-details {
+    flex: 1;
+}
+
+.notification-message {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+}
