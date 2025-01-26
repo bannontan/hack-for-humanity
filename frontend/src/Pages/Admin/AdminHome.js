@@ -70,7 +70,7 @@ function AdminHome() {
 
         {/* Placeholder for the map */}
         <div className="map-placeholder">
-          <Map />
+          <Map role="admin"/>
         </div>
 
         {/* Show HelpForm if showForm is true */}

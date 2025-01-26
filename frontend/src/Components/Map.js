@@ -6,11 +6,11 @@ dotenv.config();
 let map;
 const markers = [];
 
-async function LoadMap() {
+async function LoadMap(role) {
 	try {
 		console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 		const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-		const location = { lat: 37.7749, lng: -122.4194 };
+		const location = { lat: 37.7749, lng: -122.4194 }; // Should change to current location
 		const zoom = 8;
 		const script = document.createElement("script");
 		script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
@@ -20,7 +20,13 @@ async function LoadMap() {
 		document.head.appendChild(script);
 
 		script.onload = () => {
-			initializeMap(location, zoom);
+			if (role === "admin") {
+				initializeAdminMap(location, zoom);
+				console.log("Admin map loaded");
+			} else {
+			initializeUserMap(location, zoom);
+			console.log("User map loaded");
+			}
 		};
 
 		script.onerror = () => {
@@ -31,15 +37,107 @@ async function LoadMap() {
 	}
 }
 
-function initializeMap(location, zoom) {
-	if (window.google) {
-		map = new window.google.maps.Map(document.getElementById("map"), {
-			center: location,
-			zoom: zoom,
-		});
-	} else {
-		console.error("Google Maps API not available.");
-	}
+async function initializeUserMap(location, zoom) {
+    if (window.google) {
+        map = new window.google.maps.Map(document.getElementById("map"), {
+            center: location,
+            zoom: zoom,
+        });
+
+        try {
+            // Define the API endpoints
+            const endpoints = [
+                { url: 'http://localhost:8080/adminpost', labelKey: 'helpType' },
+                { url: 'http://localhost:8080/disaster', labelKey: 'name' }
+            ];
+
+            // Fetch all locations in parallel
+            const fetchPromises = endpoints.map(endpoint =>
+                fetch(endpoint.url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch from ${endpoint.url}: ${response.statusText}`);
+                    }
+                    return response.json();
+                }).then(data => ({ data, labelKey: endpoint.labelKey }))
+            );
+
+            // Await all fetch requests
+            const results = await Promise.all(fetchPromises);
+
+            // Process and add pins for each dataset
+            results.forEach(result => {
+                result.data.forEach(post => {
+                    if (post.lat && post.lng) {
+                        AddPin(post.lat, post.lng, post[result.labelKey] || "Existing Marker");
+                    }
+                });
+            });
+
+            console.log("All locations have been added to the map.");
+
+        } catch (error) {
+            console.error("Error fetching locations:", error);
+        }
+    } else {
+        console.error("Google Maps API not available.");
+    }
+}
+
+async function initializeAdminMap(location, zoom) {
+    if (window.google) {
+        map = new window.google.maps.Map(document.getElementById("map"), {
+            center: location,
+            zoom: zoom,
+        });
+
+        try {
+            // Define the API endpoints
+            const endpoints = [
+                { url: 'http://localhost:8080/adminpost', labelKey: 'helpType' },
+                { url: 'http://localhost:8080/disaster', labelKey: 'name' },
+				{ url: 'http://localhost:8080/map/loc/admin', labelKey: 'type' },
+            ];
+
+            // Fetch all locations in parallel
+            const fetchPromises = endpoints.map(endpoint =>
+                fetch(endpoint.url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch from ${endpoint.url}: ${response.statusText}`);
+                    }
+                    return response.json();
+                }).then(data => ({ data, labelKey: endpoint.labelKey }))
+            );
+
+            // Await all fetch requests
+            const results = await Promise.all(fetchPromises);
+
+            // Process and add pins for each dataset
+            results.forEach(result => {
+                result.data.forEach(post => {
+                    if (post.lat && post.lng) {
+                        AddPin(post.lat, post.lng, post[result.labelKey] || "Existing Marker");
+                    }
+                });
+            });
+
+            console.log("All locations have been added to the map.");
+
+        } catch (error) {
+            console.error("Error fetching locations:", error);
+        }
+    } else {
+        console.error("Google Maps API not available.");
+    }
 }
 
 function AddPin(lat, lng, title = "New Marker") {
@@ -47,8 +145,6 @@ function AddPin(lat, lng, title = "New Marker") {
 		console.error("Map is not initialized yet");
 		return;
 	}
-
-	
 
 	const position = { lat, lng };
 	const marker = new window.google.maps.Marker({
@@ -66,9 +162,9 @@ function ClearMarkers() {
 	markers.length = 0;
 }
 
-const Map = () => {
+const Map = ({ role }) => {
 	useEffect(() => {
-		LoadMap();
+		LoadMap(role);
 	}, []);
 
 	return (
