@@ -1,66 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BottomNavBar from '../../Components/BottomNavbar';
 import Map from '../../Components/Map';
-import { useUser } from '../../UserContext';
-import { FaExclamationTriangle, FaFire, FaPlus, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaExclamationTriangle, FaFire, FaPlus } from 'react-icons/fa';
 import { FaAmbulance, FaUtensils, FaUserMd, FaClock } from 'react-icons/fa';
+import { GiEarthCrack } from 'react-icons/gi'; // Earthquake
+import { WiFlood } from 'react-icons/wi';    // Flooding
 
 import './UserHome.css';
 
 function Home() {
-  const { user } = useUser();
-
+  const [disasters, setDisasters] = useState([]); // State for disasters
+  const [helpList, setHelpList] = useState([]); // State for help list
   const [activeTab, setActiveTab] = useState('disasters');
 
-  // Fake disaster data with multiple images
-  const disasters = [
-    {
-      id: 1,
-      event: 'Earthquake',
-      city: 'San Francisco',
-      severity: 'High',
-      description: 'A severe earthquake has struck the area causing significant damage.',
-      images: ['/images/earthquake1.jpg', '/images/earthquake2.jpg'],
-    },
-    {
-      id: 2,
-      event: 'Flooding',
-      city: 'New York',
-      severity: 'Medium',
-      description: 'Heavy rains have led to flooding in parts of the city.',
-      images: ['/images/flood1.jpg', '/images/flood2.jpg'],
-    },
-    {
-      id: 3,
-      event: 'Fire',
-      city: 'Los Angeles',
-      severity: 'High',
-      description: 'A wildfire is spreading rapidly in the area.',
-      images: ['/images/fire1.jpg', '/images/fire2.jpg'],
-    },
-  ];
+  useEffect(() => {
+    const fetchDisasters = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/disaster");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setDisasters(data); // Set disasters from API response
+      } catch (error) {
+        console.error('Error occurred:', error);
+      }
+    }; 
 
-  // Fake data for help available
-  const helpList = [
-    {
-      id: 1,
-      type: 'First Aid',
-      location: 'San Francisco',
-      relatedEvent: 'Earthquake',
-      waitingTime: '15 minutes',
-      distance: '1 mile',
-      description: 'First aid and medical assistance available.',
-    },
-    {
-      id: 2,
-      type: 'Water/Food',
-      location: 'New York',
-      relatedEvent: 'Flooding',
-      waitingTime: '30 minutes',
-      distance: '2 miles',
-      description: 'Food and water distribution center',
-    },
-  ];
+    fetchDisasters();
+  }, []);
+
+  useEffect(() => {
+    const fetchHelpList = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/adminpost');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setHelpList(data);
+      } catch (error) {
+        console.error('Error occurred while fetching help:', error);
+      }
+    };
+
+    fetchHelpList();
+  }, []);
 
   // Helper function to render severity badges
   const renderSeverityBadge = (severity) => {
@@ -85,6 +70,19 @@ function Home() {
         return <FaClock />;
       default:
         return <FaAmbulance />; // Default icon
+    }
+  };
+
+  const renderEventIcon = (event, size) => {
+    switch (event) {
+      case 'Flooding':
+        return <WiFlood size={size}/>;
+      case 'Earthquake':
+        return <GiEarthCrack size={size}/>;
+      case 'Fire':
+        return <FaFire size={size}/>;
+      default:
+        return <FaExclamationTriangle size={size} />; // Default icon
     }
   };
 
@@ -119,7 +117,7 @@ function Home() {
           role="tab"
           aria-selected={activeTab === 'help'}
         >
-          Help Available
+          All Help Available
         </div>
       </div>
 
@@ -130,7 +128,7 @@ function Home() {
         {activeTab === 'disasters' && (
           <div className="event-list">
             {disasters.map((disaster) => (
-              <EventCard key={disaster.id} disaster={disaster} renderSeverityBadge={renderSeverityBadge} />
+              <EventCard key={disaster.id} disaster={disaster} renderSeverityBadge={renderSeverityBadge} renderEventIcon={renderEventIcon} />
             ))}
           </div>
         )}
@@ -138,17 +136,17 @@ function Home() {
           <div className="help-tab">
             <div className="help-list">
               {helpList.map((help) => (
-                <div key={help.id} className="help-card">
+                <div key={help.adminID} className="help-card">
 
                   <div className="help-icon">
-                    {renderIcon(help.type)} <h3>{help.type}</h3>
+                    {renderIcon(help.helpType)} <h3>{help.helpType}</h3>
                   </div>
 
                   <div className="help-details">
-                    <p><strong>Location:</strong> {help.location}</p>
-                    <p><strong>Event:</strong> {help.relatedEvent}</p>
-                    <p><strong>Distance:</strong> {help.distance}</p>
-                    <p><strong>Waiting Time:</strong> {help.waitingTime}</p>
+                    <p><strong>Location:</strong> {help.address}</p>
+                    <p><strong>Event:</strong> {help.disasterName}</p>
+                    <p><strong>Distance:</strong> DISTANCE TBD</p>
+                    <p><strong>Waiting Time:</strong> {help.waitingTime} Minutes</p>
                     <p>----</p>
                     <p>{help.description}</p>
                   </div>
@@ -164,35 +162,12 @@ function Home() {
   );
 }
 
-const EventCard = ({ disaster, renderSeverityBadge }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const handleNext = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === disaster.images.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const handlePrev = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? disaster.images.length - 1 : prevIndex - 1
-    );
-  };
+const EventCard = ({ disaster, renderSeverityBadge, renderEventIcon }) => {
 
   return (
     <div className="event-card">
       <div className="image-carousel">
-        <button className="arrow-button" onClick={handlePrev}>
-          <FaArrowLeft />
-        </button>
-        <img
-          src={disaster.images[currentImageIndex]}
-          alt={`${disaster.event} image ${currentImageIndex + 1}`}
-          className="event-image"
-        />
-        <button className="arrow-button" onClick={handleNext}>
-          <FaArrowRight />
-        </button>
+        {renderEventIcon(disaster.event, 64)}
       </div>
       <div className="event-details">
         <h3>{disaster.event}</h3>
