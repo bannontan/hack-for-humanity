@@ -26,9 +26,9 @@ export const postHelpReq = async (req, res, next) => {
 };
 
 // @desc	Get all user help requests from UserHelp.db
-// @route	GET /map/loc
+// @route	GET /map/loc/:role
 export const getHelpReqs = async (req, res, next) => {
-	const role = req.body.role;
+	const role = req.params.role;
 	let userHelpReqs;
 
 	try {
@@ -56,10 +56,12 @@ export const getHelpReqs = async (req, res, next) => {
 		}
 		return res.status(200).json(userHelpReqs);
 	} catch (error) {
-		return res
-			.status(500)
-			.json({ message: "Failed to fetch userHelpReqs", error });
-	}
+        console.error("Error fetching user help requests:", error.message);
+        return res.status(500).json({ 
+            message: "Failed to fetch user help requests", 
+            error: error.message 
+        });
+    }
 };
 
 // @desc	Update help request in UserHelp.db using id (primary key)

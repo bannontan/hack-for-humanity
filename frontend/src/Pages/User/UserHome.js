@@ -100,7 +100,7 @@ function Home() {
       </header>
 
       <div className="map-section">
-        <Map />
+        <Map role="user"/>
       </div>
 
       {/* Tab Bar */}
