@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/user/loc", postHelpReq);
 
 // GET Get all locations
-router.get("/loc", getHelpReqs);
+router.get("/loc/:role", getHelpReqs);
 
 // PATCH Update location
 router.patch("/loc/:id", updateHelpReq);
