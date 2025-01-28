@@ -5,6 +5,7 @@ import { FaExclamationTriangle, FaFire, FaPlus } from 'react-icons/fa';
 import { FaAmbulance, FaUtensils, FaUserMd, FaClock } from 'react-icons/fa';
 import { GiEarthCrack } from 'react-icons/gi'; // Earthquake
 import { WiFlood } from 'react-icons/wi';    // Flooding
+import { useUser } from '../../UserContext';
 
 import './UserHome.css';
 
@@ -13,6 +14,10 @@ function Home() {
   const [helpList, setHelpList] = useState([]); // State for help list
   const [activeTab, setActiveTab] = useState('disasters');
 
+  const { user } = useUser(); // Access user context
+
+  console.log('User:', user);
+  
   useEffect(() => {
     const fetchDisasters = async () => {
       try {

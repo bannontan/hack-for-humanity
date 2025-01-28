@@ -23,12 +23,14 @@ const helplineNumbers = [
   { type: "Child Helpline", number: "1098" },
 ];
 
+console.log('User:', user);
+
   // Prefill name and age if user is logged in
   useEffect(() => {
-    if (user?.username) {
-      setName(user?.username || ''); // Use `user.name` or an empty string if not present
-      setAge(user?.age || ''); // Use `user.age` or an empty string if not present
-      setUserId(user?.id || '');
+    if (user?.id) {
+      setName(user?.username || 'John Doe'); // Use `user.name` or an empty string if not present
+      setAge(user?.age || 35); // Use `user.age` or an empty string if not present
+      setUserId(user?.id || '2');
       console.log('User:', user);
     }
   }, [user]);
@@ -78,7 +80,7 @@ const helplineNumbers = [
 
       {!isSubmitted ? (
           <form onSubmit={handleSubmit} className="request-form">
-            {!user?.username && (
+            {!user?.id && (
               <>
                 <div className="form-group">
                   <label>Name<span style={{ color: 'red' }}>*</span>:</label>
