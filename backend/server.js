@@ -60,9 +60,9 @@ app.get("/", (req, res, next) => {
 
 // Routes to login and signup
 app.use("/user", authUser);
-app.use("/map", map);
-app.use("/disaster", disaster);
-app.use("/adminpost", adminPost);
+app.use("/map", authenticate, map);
+app.use("/disaster", authenticate, disaster);
+app.use("/adminpost", authenticate, adminPost);
 
 app.use(errorHandler);
 
