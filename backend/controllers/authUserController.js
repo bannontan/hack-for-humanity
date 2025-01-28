@@ -69,6 +69,13 @@ export const getUser = async (req, res, next) => {
 // @route	DELETE /user/:id
 export const deleteUser = async (req, res, next) => {
 	const id = req.params.id;
+
+	if (parseInt(req.user.id) !== parseInt(id)) {
+		return res.status(403).json({
+			message: "Forbidden: You can only delete your own account.",
+		});
+	}
+
 	try {
 		await User.destroy({
 			where: {
