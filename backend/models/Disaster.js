@@ -32,6 +32,10 @@ const Disaster = sequelize.define("Disaster", {
 		type: DataTypes.STRING,
 		allowNull: true,
 	},
+	address: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
 	lat: {
 		type: DataTypes.DECIMAL,
 		allowNull: false,

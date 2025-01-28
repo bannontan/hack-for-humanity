@@ -10,6 +10,7 @@ export const postHelpReq = async (req, res, next) => {
 	const { lat, lng } = await geocodeLocation(address);
 	try {
 		const newUserHelpReq = UserHelp.build({
+			address,
 			lat,
 			lng,
 			description,
@@ -94,6 +95,7 @@ export const updateHelpReq = async (req, res, next) => {
 		if (!loc) {
 			return res.status(404).json({ message: "Location not found" });
 		}
+		userHelpReq.address = address;
 		userHelpReq.lat = lat;
 		userHelpReq.lng = lng;
 		userHelpReq.description = description;

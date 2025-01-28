@@ -2,6 +2,10 @@ import { DataTypes } from "sequelize";
 import sequelize from "../utils/db/connection.js";
 
 const UserHelp = sequelize.define("UserHelp", {
+	address: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
 	lat: {
 		type: DataTypes.DECIMAL,
 		allowNull: false,

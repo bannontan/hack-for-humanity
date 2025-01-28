@@ -13,6 +13,7 @@ export const postAdminPost = async (req, res, next) => {
 			helpType,
 			waitingTime,
 			description,
+			address,
 			lat,
 			lng,
 			adminId,
@@ -53,6 +54,7 @@ export const updateAdminPost = async (req, res, next) => {
 		adminPost.helpType = helpType;
 		adminPost.waitingTime = waitingTime;
 		adminPost.description = description;
+		adminPost.address = address;
 		adminPost.lat = lat;
 		adminPost.lng = lng;
 		adminPost.disasterName = disasterName;

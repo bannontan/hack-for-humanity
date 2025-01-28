@@ -14,6 +14,10 @@ const AdminPost = sequelize.define("AdminPost", {
 		type: DataTypes.STRING,
 		allowNull: true,
 	},
+	address: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
 	lat: {
 		type: DataTypes.DECIMAL,
 		allowNull: false,

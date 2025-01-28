@@ -15,6 +15,7 @@ export const postDisaster = async (req, res, next) => {
 			radius,
 			severity,
 			description,
+			address,
 			lat,
 			lng,
 		});
@@ -60,6 +61,7 @@ export const updateDisaster = async (req, res, next) => {
 		disasterInfo.radius = radius;
 		disasterInfo.severity = severity;
 		disasterInfo.description = description;
+		disasterInfo.address = address;
 		disasterInfo.lat = lat;
 		disasterInfo.lng = lng;
 		await disasterInfo.save();
