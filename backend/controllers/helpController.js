@@ -56,12 +56,32 @@ export const getHelpReqs = async (req, res, next) => {
 		}
 		return res.status(200).json(userHelpReqs);
 	} catch (error) {
-        console.error("Error fetching user help requests:", error.message);
-        return res.status(500).json({ 
-            message: "Failed to fetch user help requests", 
-            error: error.message 
-        });
-    }
+		console.error("Error fetching user help requests:", error.message);
+		return res.status(500).json({
+			message: "Failed to fetch user help requests",
+			error: error.message,
+		});
+	}
+};
+
+// @desc	Get all personal help requests in UserHelp.db
+// @route  GET /map/user/:userId
+export const getPersonalHelpReqs = async (req, res, next) => {
+	const { userId } = req.params;
+	let userHelpReqs;
+
+	try {
+		userHelpReqs = await UserHelp.findAll({
+			where: { userId },
+		});
+		return res.status(200).json(userHelpReqs);
+	} catch (error) {
+		console.error("Error fetching personal help requests:", error.message);
+		return res.status(500).json({
+			message: "Failed to fetch personal help requests",
+			error: error.message,
+		});
+	}
 };
 
 // @desc	Update help request in UserHelp.db using id (primary key)
