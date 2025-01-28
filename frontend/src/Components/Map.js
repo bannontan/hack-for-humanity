@@ -166,6 +166,19 @@ function AddPin(lat, lng, item, title = "New Marker") {
 		},
 	});
 
+	if (item.event) {
+		const circle = new window.google.maps.Circle({
+			map,
+			center: position,
+			radius: item.radius, // Radius in meters (adjust based on your requirements)
+			fillColor: "#FF0000", // Translucent red fill
+			fillOpacity: 0.2, // Adjust transparency (0.0 - 1.0)
+			strokeColor: "#FF0000", // Red border
+			strokeOpacity: 0.5, // Adjust border transparency
+			strokeWeight: 1, // Border thickness
+		});
+	}
+
 	markers.push(marker);
 	return marker;
 }

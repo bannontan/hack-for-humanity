@@ -66,7 +66,7 @@ const next = mockNext;
 				body: {
 					address: "Pacific Palisades",
 					description: "Wind got stronger, mom is dying",
-					type: "Medical",
+					type: "First Aid",
 					userId: "2",
 				},
 			},
@@ -78,7 +78,7 @@ const next = mockNext;
 				body: {
 					address: "Altadena",
 					description: "Teleportation device broke down",
-					type: "Food/Water",
+					type: "Water/Food",
 					userId: "2",
 				},
 			},
@@ -90,7 +90,7 @@ const next = mockNext;
 				body: {
 					address: "Broadmoor",
 					description: "Fell into sinkhole",
-					type: "Firefighter",
+					type: "Fire",
 					userId: "2",
 				},
 			},
