@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import dotenv from "dotenv";
-import { renderToStaticMarkup } from 'react-dom/server';
-import { FaAmbulance, FaUtensils, FaUserMd, FaClock, FaFire } from 'react-icons/fa';
-import { GiEarthCrack } from 'react-icons/gi'; // Earthquake
-import { WiFlood } from 'react-icons/wi';    // Flooding
+import { renderToStaticMarkup } from "react-dom/server";
+import {
+	FaAmbulance,
+	FaUtensils,
+	FaUserMd,
+	FaClock,
+	FaFire,
+} from "react-icons/fa";
+import { GiEarthCrack } from "react-icons/gi"; // Earthquake
+import { WiFlood } from "react-icons/wi"; // Flooding
 
 dotenv.config();
 
@@ -44,72 +50,82 @@ async function LoadMap(role, setData) {
 function createIcon(iconComponent) {
 	// Render the React component to a static SVG string
 	const svgString = renderToStaticMarkup(iconComponent);
-  
+
 	// Convert the SVG string into a data URL
 	const svgBase64 = btoa(svgString); // Encode the SVG to base64
 	return `data:image/svg+xml;base64,${svgBase64}`;
-  }
-  
+}
+
 const urlMapping = {
-	'First Aid': createIcon(<FaAmbulance size={40} color="blue" />),
-	'Water/Food': createIcon(<FaUtensils size={40} color="green" />),
-	'Psychological Support': createIcon(<FaUserMd size={40} color="purple" />),
-	'Waiting Time': createIcon(<FaClock size={40} color="orange" />),
-	'Flooding': createIcon(<WiFlood size={40} color="blue" />),
-	'Earthquake': createIcon(<GiEarthCrack size={40} color="brown" />),
-	'Fire': createIcon(<FaFire size={40} color="red" />),
+	"First Aid": createIcon(<FaAmbulance size={40} color="blue" />),
+	"Water/Food": createIcon(<FaUtensils size={40} color="green" />),
+	"Psychological Support": createIcon(<FaUserMd size={40} color="purple" />),
+	"Waiting Time": createIcon(<FaClock size={40} color="orange" />),
+	Flooding: createIcon(<WiFlood size={40} color="blue" />),
+	Earthquake: createIcon(<GiEarthCrack size={40} color="brown" />),
+	Fire: createIcon(<FaFire size={40} color="red" />),
 };
 
 function renderIcon(data) {
 	const iconUrl = urlMapping[data];
 	if (iconUrl) {
-	  return iconUrl;
+		return iconUrl;
 	}
 }
-	
+
 async function fetchData(endpoints, setData) {
 	try {
-	  const fetchPromises = endpoints.map(endpoint =>
-		fetch(endpoint.url, {
-		  method: 'GET',
-		  headers: { 'Content-Type': 'application/json' },
-		})
-		  .then(response => {
-			if (!response.ok) {
-			  throw new Error(`Failed to fetch from ${endpoint.url}: ${response.statusText}`);
+		const fetchPromises = endpoints.map((endpoint) =>
+			fetch(endpoint.url, {
+				method: "GET",
+				credentials: "include",
+				headers: { "Content-Type": "application/json" },
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error(
+							`Failed to fetch from ${endpoint.url}: ${response.statusText}`
+						);
+					}
+					return response.json();
+				})
+				.then((data) => {
+					// Add labelKey and handle specific logic for the 'disaster' endpoint
+					if (endpoint.labelKey === "name") {
+						return data.map((item) => ({
+							...item,
+							labelKey: endpoint.labelKey,
+							event: item.event || "Unknown Event", // Add 'event' column with a fallback value
+						}));
+					}
+					return data.map((item) => ({
+						...item,
+						labelKey: endpoint.labelKey,
+					}));
+				})
+		);
+
+		const results = await Promise.all(fetchPromises);
+		const mergedData = results.flat();
+		setData(mergedData);
+
+		// Add pins to map initially
+		mergedData.forEach((item) => {
+			if (item.lat && item.lng) {
+				AddPin(
+					item.lat,
+					item.lng,
+					item,
+					item[item.labelKey] || "Existing Marker"
+				);
 			}
-			return response.json();
-		  })
-		  .then(data => {
-			// Add labelKey and handle specific logic for the 'disaster' endpoint
-			if (endpoint.labelKey === 'name') {
-			  return data.map(item => ({
-				...item,
-				labelKey: endpoint.labelKey,
-				event: item.event || 'Unknown Event', // Add 'event' column with a fallback value
-			  }));
-			}
-			return data.map(item => ({ ...item, labelKey: endpoint.labelKey }));
-		  })
-	  );
-  
-	  const results = await Promise.all(fetchPromises);
-	  const mergedData = results.flat();
-	  setData(mergedData);
-  
-	  // Add pins to map initially
-	  mergedData.forEach(item => {
-		if (item.lat && item.lng) {
-		  AddPin(item.lat, item.lng, item, item[item.labelKey] || "Existing Marker");
-		}
-	  });
-  
-	  console.log("All locations have been added to the map.");
+		});
+
+		console.log("All locations have been added to the map.");
 	} catch (error) {
-	  console.error("Error fetching locations:", error);
+		console.error("Error fetching locations:", error);
 	}
-  }
-  
+}
 
 async function initializeUserMap(location, zoom, setData) {
 	if (window.google) {
@@ -119,8 +135,8 @@ async function initializeUserMap(location, zoom, setData) {
 		});
 
 		const endpoints = [
-			{ url: 'http://localhost:8080/adminpost', labelKey: 'helpType' },
-			{ url: 'http://localhost:8080/disaster', labelKey: 'name' }
+			{ url: "http://localhost:8080/adminpost", labelKey: "helpType" },
+			{ url: "http://localhost:8080/disaster", labelKey: "name" },
 		];
 
 		fetchData(endpoints, setData);
@@ -137,9 +153,9 @@ async function initializeAdminMap(location, zoom, setData) {
 		});
 
 		const endpoints = [
-			{ url: 'http://localhost:8080/adminpost', labelKey: 'helpType' },
-			{ url: 'http://localhost:8080/disaster', labelKey: 'name' },
-			{ url: 'http://localhost:8080/map/loc/admin', labelKey: 'type' },
+			{ url: "http://localhost:8080/adminpost", labelKey: "helpType" },
+			{ url: "http://localhost:8080/disaster", labelKey: "name" },
+			{ url: "http://localhost:8080/map/loc/admin", labelKey: "type" },
 		];
 
 		fetchData(endpoints, setData);
@@ -186,7 +202,7 @@ const Map = ({ role }) => {
 
 	const handleLabelChange = (e) => {
 		setSelectedLabelKey(e.target.value);
-		setSelectedFilterValue("");  // Reset filter value when label changes
+		setSelectedFilterValue(""); // Reset filter value when label changes
 		updateMarkers(e.target.value, "");
 	};
 
@@ -197,30 +213,36 @@ const Map = ({ role }) => {
 
 	const updateMarkers = (labelKey, filterValue) => {
 		ClearMarkers();
-		data
-			.filter(item => 
+		data.filter(
+			(item) =>
 				(labelKey === "" || item.labelKey === labelKey) &&
-				(filterValue === "" || item[getFilterField(labelKey)] === filterValue)
-			)
-			.forEach(item => {
-				if (item.lat && item.lng) {
-					AddPin(item.lat, item.lng, `${item[getFilterField(labelKey)]}`);
-				}
-			});
+				(filterValue === "" ||
+					item[getFilterField(labelKey)] === filterValue)
+		).forEach((item) => {
+			if (item.lat && item.lng) {
+				AddPin(item.lat, item.lng, `${item[getFilterField(labelKey)]}`);
+			}
+		});
 	};
 
 	const getFilterField = (labelKey) => {
 		const mapping = {
-			"helpType": "helpType",
-			"name": "event",
-			"type": "type"
+			helpType: "helpType",
+			name: "event",
+			type: "type",
 		};
 		return mapping[labelKey] || "";
 	};
 
 	const getUniqueValues = (labelKey) => {
 		const field = getFilterField(labelKey);
-		return [...new Set(data.filter(item => item.labelKey === labelKey).map(item => item[field]))];
+		return [
+			...new Set(
+				data
+					.filter((item) => item.labelKey === labelKey)
+					.map((item) => item[field])
+			),
+		];
 	};
 
 	return (
@@ -236,12 +258,18 @@ const Map = ({ role }) => {
 
 				{selectedLabelKey && (
 					<>
-						<label style={{ marginLeft: "20px" }}>Filter by type:</label>
+						<label style={{ marginLeft: "20px" }}>
+							Filter by type:
+						</label>
 						<select onChange={handleFilterValueChange}>
 							<option value="">All</option>
-							{getUniqueValues(selectedLabelKey).map((value, index) => (
-								<option key={index} value={value}>{value}</option>
-							))}
+							{getUniqueValues(selectedLabelKey).map(
+								(value, index) => (
+									<option key={index} value={value}>
+										{value}
+									</option>
+								)
+							)}
 						</select>
 					</>
 				)}
