@@ -2,6 +2,7 @@ import express from "express";
 import {
 	postHelpReq,
 	getHelpReqs,
+	getPersonalHelpReqs,
 	deleteHelpReq,
 	updateHelpReq,
 } from "../controllers/helpController.js";
@@ -13,6 +14,9 @@ router.post("/user/loc", postHelpReq);
 
 // GET Get all locations
 router.get("/loc/:role", getHelpReqs);
+
+// GET personal help requests
+router.get("/user/:userId", getPersonalHelpReqs);
 
 // PATCH Update location
 router.patch("/loc/:id", updateHelpReq);
