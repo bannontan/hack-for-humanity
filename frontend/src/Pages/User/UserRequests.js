@@ -1,44 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import BottomNavBar from '../../Components/BottomNavbar';
 import { FaCheckCircle, FaClock, FaClipboard } from 'react-icons/fa';
 import './UserRequests.css';
 
 function UserRequests() {
-  // Fake user requests data
-  const userRequests = [
-    {
-      id: 1,
-      type: 'Food Aid',
-      status: 'Accepted',
-      date: '2025-01-24',
-      time: '14:30',
-      description: 'Request for food packets for a family of 4.',
-    },
-    {
-      id: 2,
-      type: 'Medical Assistance',
-      status: 'Pending',
-      date: '2025-01-25',
-      time: '09:00',
-      description: 'Urgent medical aid required for an injured person.',
-    },
-    {
-      id: 3,
-      type: 'Shelter Request',
-      status: 'Accepted',
-      date: '2025-01-23',
-      time: '17:15',
-      description: 'Temporary shelter needed for two days.',
-    },
-    {
-        id: 4,
-        type: 'Food Aid',
-        status: 'Accepted',
-        date: '2025-01-24',
-        time: '14:30',
-        description: 'Request for water packets for a family of 4.',
-      },
-  ];
+  const[userRequests, setUserRequests] = useState([]); // State for user requests
+
+  useEffect(() => {
+      const fetchUserRequests = async () => {
+        try {
+          const response = await fetch("http://localhost:8080/map/user/2");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+          setUserRequests(data);
+        } catch (error) {
+          console.error('Error occurred:', error);
+        }
+      }; 
+  
+      fetchUserRequests();
+    }, []);
 
   // Status icon
   const renderStatusIcon = (status) => {
@@ -69,8 +52,8 @@ function UserRequests() {
               <span className={`status-label ${request.status.toLowerCase()}`}>{request.status}</span>
             </div>
             <div className="request-details">
-              <p><strong>Date:</strong> {request.date}</p>
-              <p><strong>Time:</strong> {request.time}</p>
+              <p><strong>Date:</strong> {request.createdAt}</p>
+              <p><strong>Time:</strong> {request.createdAt}</p>
               <p><strong>Description:</strong> {request.description}</p>
             </div>
           </div>

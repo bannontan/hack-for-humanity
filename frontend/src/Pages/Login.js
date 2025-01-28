@@ -41,6 +41,7 @@ const Login = () => {
         navigate('/AdminHome');
       } else {
         console.log(data);
+        setUser({ username: data.username, id: data.id, age: data.age, role: data.role }); // Save the user info in context
         navigate('/home');
       }
     } catch (error) {
