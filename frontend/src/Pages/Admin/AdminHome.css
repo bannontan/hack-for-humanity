@@ -1,138 +1,209 @@
-/* General Page Styling */
-.home-page {
-    font-family: Arial, sans-serif;
-    color: #333;
-    background-color: #f9f9f9;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    display: flex;
-  }
-  
-  .content {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding-bottom: 100px;
-  }
-  
-  .content h1 {
-    padding-left: 20px;
-    font-size: 2rem;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  
-  .content p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    padding-left: 20px;
-    text-align: center;
+.admin-home-page {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7fc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 85px;
+}
 
-  }
-  
-  /* Map Placeholder Styling */
-  .map-placeholder {
-    width: 80%;
-    height: 400px;
-    background-color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    margin: 20px auto;
-  }
-  
-  /* Event Table Styling */
-  .event-table-container {
-    width: 100%;
-    border: #333;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .event-table-container h2 {
-    font-size: 1.5rem;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .event-table {
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-    border-collapse: collapse; /* Remove space between rows */
-    border-spacing: 0; /* Ensure no extra spacing */
-    border-radius: 20px;  
-    overflow: hidden; /* Hide overflow content */
-  }
-  
-  .event-table th, .event-table td {
-    padding: 15px;
-    text-align: center;
-    background-color: #f4f4f4; /* Light background for cells */
-    font-size: 1.2rem;
-    font-weight:bold;
-  }
-  
-  .event-table th {
-    background-color: #333;
-    color: #fff;
-  }
-  
-  .disaster {
-    border-bottom: 2px solid #ddd; /* Border between rows */
-  }
-  
-  .help-subtable {
-    width: 95%;
-    margin: 0 auto; /* Center the subtable */
-    border-collapse: collapse; /* No gaps between cells */
-  }
-  
-  .help-subtable th, .help-subtable td {
-    padding: 10px;
-    border: 1px solid #ddd; /* Standard border for subtable */
-    font-size: 1rem;
-    font-weight: normal;
-    text-align: center;
-    background-color: #fff; /* White background */
-  }
-  
-  .help-subtable th {
-    background-color: #0073e6; /* Blue header for subtable */
-    color: #fff;
-  }
-  
-  .event-table-container tr.disaster {
-    border-top: 20px solid #ffffff; /* Add a thicker top border for separation between disaster rows */
-  }
-  
-  /* Severity Icons */
-  
-  .high-severity-icon {
-    color: #e74c3c; /* Bright red */
-  }
-  
-  .medium-severity-icon {
-    color: #f39c12; /* Bright orange */
-  }
-  
-  .low-severity-icon {
-    color: #2ecc71; /* Bright green */
-  }
-  
-  /* Icons for help types */
-  .help-icon {
-    font-size: 1.2rem;
-    margin-right: 5px; /* Add space between the icon and text */
-    vertical-align: middle;
-  }
-  
-  /* Numbering style for help rows */
-  .help-subtable td:first-child {
-    font-weight: bold;
-    text-align: center;
-    color: #555;
-  }
-  
+.admin-content {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.admin-title {
+  font-size: 2rem;
+  text-align: center;
+  margin: 20px 0;
+  color: #333;
+  font-weight: 600;
+}
+
+.admin-description {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+/* Map Placeholder Styling */
+.admin-map-placeholder {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #c9c9c9;
+  margin-bottom: 20px;
+}
+
+/* Disaster Cards Container */
+.admin-disaster-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Disaster Card */
+.admin-disaster-card {
+  background-color: #f7f8fc;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  transition: transform 0.3s;
+  width: 85%;
+  margin: auto;
+}
+
+.admin-disaster-card:hover {
+  transform: translateY(-5px);
+}
+
+.admin-disaster-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.admin-disaster-event {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.admin-disaster-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.admin-disaster-severity,
+.admin-disaster-location,
+.admin-disaster-distance {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.admin-disaster-severity span,
+.admin-disaster-location span,
+.admin-disaster-distance span {
+  font-size: 1rem;
+  color: #666;
+}
+
+.admin-disaster-severity span {
+  font-weight: bold;
+}
+
+/* Help Section */
+.admin-help-section {
+  margin-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f7f8fc;
+  padding-bottom: 20px;
+}
+
+.admin-help-title {
+  font-size: 1.4rem;
+  color: #222;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.admin-help-list {
+  list-style: none;
+  display: grid;
+  gap: 15px; /* Spacing between items */
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-help-item {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-help-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-help-type {
+  display: flex;
+  align-items: center; /* Align icon and text vertically */
+  gap: 8px; /* Add space between the icon and text */
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.admin-help-type svg {
+  font-size: 1.4rem; /* Ensure the icon is slightly larger than the text */
+  color: #0073e6; /* Default color for the icons */
+}
+
+.admin-help-type-text {
+  color: #333; /* Matches text color for consistency */
+}
+
+
+.admin-help-details {
+  font-size: 1rem;
+  color: #777;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.admin-help-location {
+  font-weight: 500;
+  color: #555;
+}
+
+.admin-help-distance {
+  color: #888;
+}
+
+.admin-help-wait-time {
+  font-size: 1rem;
+  color: #555;
+  background: #f0f8ff; /* Highlight for wait time */
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Severity Icons */
+.admin-high-severity-icon {
+  color: #e74c3c;
+  font-size: 1.2rem;
+}
+
+.admin-medium-severity-icon {
+  color: #f39c12;
+  font-size: 1.2rem;
+}
+
+.admin-low-severity-icon {
+  color: #2ecc71;
+  font-size: 1.2rem;
+}

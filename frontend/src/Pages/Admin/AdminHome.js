@@ -1,76 +1,102 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BottomNavBar from '../../Components/BottomNavbar';
 import Map from '../../Components/Map';
-import { FaExclamationCircle, FaFire, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import { FaFire, FaCheckCircle, FaExclamationTriangle, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaAmbulance, FaUtensils, FaUserMd, FaClock } from 'react-icons/fa';
 import HelpForm from './AdminCreateHelpEvent';
-
 import './AdminHome.css';
 
 function AdminHome() {
+    const [helpList, setHelpList] = useState([]); // State for help list
+    const [disasters, setDisasters] = useState([]); // State for disasters
+    
+  useEffect(() => {
+      const fetchHelpList = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/adminpost');
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+          setHelpList(data);
+        } catch (error) {
+          console.error('Error occurred while fetching help:', error);
+        }
+      };
+  
+      fetchHelpList();
+  }, []);
 
-  // Fake disaster data
-  const [disasters, setDisasters] = useState([
-    {
-      id: 1,
-      event: 'Earthquake',
-      city: 'San Francisco',
-      distance: 10,
-      severity: 'High',
-      help: [
-        { type: 'First Aid', location: 'Central Hospital', distance: 3, waitTime: '10' },
-        { type: 'Water/Food', location: 'Relief Center A', distance: 2, waitTime: '5' },
-      ],
-    },
-    {
-      id: 2,
-      event: 'Flooding',
-      city: 'New York',
-      distance: 50,
-      severity: 'Medium',
-      help: [
-        { type: 'Psychological', location: 'Counseling Center B', distance: 7, waitTime: '15' },
-        { type: 'Water/Food', location: 'Relief Center C', distance: 10, waitTime: '20' },
-      ],
-    },
-    {
-      id: 3,
-      event: 'Fire',
-      city: 'Los Angeles',
-      distance: 5,
-      severity: 'High',
-      help: [
-        { type: 'Firefighter', location: 'Fire Station 1', distance: 1, waitTime: '5' },
-        { type: 'First Aid', location: 'Hospital D', distance: 4, waitTime: '12' },
-      ],
-    },
-  ]);
+  useEffect(() => {
+      const fetchDisasters = async () => {
+        try {
+          const response = await fetch("http://localhost:8080/disaster");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+          const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setDisasters(sortedData);
+        } catch (error) {
+          console.error('Error occurred:', error);
+        }
+      }; 
+  
+      fetchDisasters();
+    }, []);
 
-  // State to manage the form visibility
   const [showForm, setShowForm] = useState(false);
 
-  // Sort disasters by distance (nearest first)
-  const sortedDisasters = disasters.sort((a, b) => a.distance - b.distance);
-
-  // Helper function to render severity icons
+  // Helper function to render severity icons with labels
   const renderSeverityIcon = (severity) => {
     if (severity === 'High') {
-      return <FaFire className="high-severity-icon" />;
+      return (
+        <div className="admin-disaster-severity">
+          <FaFire className="admin-high-severity-icon" />
+          <span style={{ color: '#e74c3c' }}>High</span>
+        </div>
+      );
     }
     if (severity === 'Medium') {
-      return <FaExclamationTriangle className="medium-severity-icon" />;
+      return (
+        <div className="admin-disaster-severity">
+          <FaExclamationTriangle className="admin-medium-severity-icon" />
+          <span style={{ color: '#f39c12' }}>Medium</span>
+        </div>
+      );
     }
-    return <FaCheckCircle className="low-severity-icon" />;
+    return (
+      <div className="admin-disaster-severity">
+        <FaCheckCircle className="admin-low-severity-icon" />
+        <span style={{ color: '#2ecc71' }}>Low</span>
+      </div>
+    );
   };
 
-  return (
-    <div className="home-page">
-      <div className="content">
-        <h1>Admin Homepage</h1>
-        <p>View existing disasters and help requests.</p>
+  const renderIcon = (helpType) => {
+      switch (helpType) {
+        case 'First Aid':
+          return <FaAmbulance />;
+        case 'Water/Food':
+          return <FaUtensils />;
+        case 'Psychological Support':
+          return <FaUserMd />;
+        case 'Waiting Time':
+          return <FaClock />;
+        default:
+          return <FaAmbulance />; // Default icon
+      }
+    };
 
-        {/* Placeholder for the map */}
-        <div className="map-placeholder">
-          <Map role="admin"/>
+  return (
+    <div className="admin-home-page">
+      <div className="admin-content">
+        <h1 className="admin-title">Admin Homepage</h1>
+        <p className="admin-description">View active disasters and help requests</p>
+
+        {/* Map Placeholder */}
+        <div className="admin-map-placeholder">
+          <Map role="admin" />
         </div>
 
         {/* Show HelpForm if showForm is true */}
@@ -82,66 +108,53 @@ function AdminHome() {
           />
         )}
 
-        {/* Table of events */}
-        <div className="event-table-container">
-          <h2>Active Disaster Events</h2>
-          <table className="event-table">
-            <thead>
-              <tr>
-                <th>Event</th>
-                <th>City</th>
-                <th>Distance</th>
-                <th>Severity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedDisasters.map((disaster) => (
-                <React.Fragment key={disaster.id}>
-                  {/* Main disaster row */}
-                  <tr className={`disaster`}>
-                    <td className={`${disaster.severity.toLowerCase()}-severity-icon`}>
-                      <FaExclamationCircle /> {disaster.event}
-                    </td>
-                    <td className={`${disaster.severity.toLowerCase()}-severity-icon`}>
-                      {disaster.city}
-                    </td>
-                    <td className={`${disaster.severity.toLowerCase()}-severity-icon`}>
-                      {disaster.distance} miles
-                    </td>
-                    <td>{renderSeverityIcon(disaster.severity)}</td>
-                  </tr>
+        {/* List of Disaster Events as Cards */}
+        <div className="admin-disaster-cards-container">
+          {disasters.map((disaster) => (
+            <div key={disaster.id} className="admin-disaster-card">
+              {/* Disaster Header */}
+              <div className="admin-disaster-header">
+                <h3 className="admin-disaster-event">{disaster.event}</h3>
+                {renderSeverityIcon(disaster.severity)}
+              </div>
 
-                  {/* Subtable for help details */}
-                  <tr>
-                    <td colSpan="4">
-                      <table className="help-subtable">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Help Type</th>
-                            <th>Location</th>
-                            <th>Distance (miles)</th>
-                            <th>Waiting Time (mins)</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {disaster.help.map((help, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{help.type}</td>
-                              <td>{help.location}</td>
-                              <td>{help.distance} miles away</td>
-                              <td>{help.waitTime}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
+              {/* Disaster Details */}
+              <div className="admin-disaster-details">
+                <div className="admin-disaster-location">
+                  <FaMapMarkerAlt />
+                  <span>{disaster.city}</span>
+                </div>
+                <div className="admin-disaster-distance">
+                  <span>{disaster.distance} miles</span>
+                </div>
+              </div>
+
+              {/* Help Details */}
+              <div className="admin-help-section">
+                <h4 className="admin-help-title">Help Available</h4>
+                <ul className="admin-help-list">
+                  {helpList.map((help) => (
+                    <li key={help.id} className="admin-help-item">
+                      <div className="admin-help-item-content">
+                        <div className="admin-help-type">
+                          {renderIcon(help.type)}
+                          <span className="admin-help-type-text">{help.helpType}</span>
+                        </div>
+                        <div className="admin-help-details">
+                          <span className="admin-help-location">{help.location}</span>
+                          <span className="admin-help-distance">({help.distance} miles away)</span>
+                        </div>
+                      </div>
+                      <div className="admin-help-wait-time">
+                        Wait time: <span>{help.waitingTime} mins</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+            </div>
+          ))}
         </div>
       </div>
       <BottomNavBar setShowForm={setShowForm} />

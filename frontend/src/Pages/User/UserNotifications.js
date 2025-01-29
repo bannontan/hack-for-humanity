@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaBell, FaExclamationCircle, FaRegHandshake } from 'react-icons/fa';
 import BottomNavBar from '../../Components/BottomNavbar';
 import './UserNotifications.css';
@@ -25,7 +25,7 @@ const notificationsData = [
 ];
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState(notificationsData);
+  const [notifications] = useState(notificationsData);
 
   return (
     <div className="notifications-page">

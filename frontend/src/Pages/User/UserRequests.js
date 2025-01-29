@@ -14,7 +14,9 @@ function UserRequests() {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           const data = await response.json();
-          setUserRequests(data);
+          const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+          setUserRequests(sortedData);
         } catch (error) {
           console.error('Error occurred:', error);
         }
@@ -52,8 +54,8 @@ function UserRequests() {
               <span className={`status-label ${request.status.toLowerCase()}`}>{request.status}</span>
             </div>
             <div className="request-details">
-              <p><strong>Date:</strong> {request.createdAt}</p>
-              <p><strong>Time:</strong> {request.createdAt}</p>
+              <p><strong>Date:</strong> {new Date(request.createdAt).toLocaleDateString()}</p>
+              <p><strong>Time:</strong> {new Date(request.createdAt).toLocaleTimeString()}</p>
               <p><strong>Description:</strong> {request.description}</p>
             </div>
           </div>
