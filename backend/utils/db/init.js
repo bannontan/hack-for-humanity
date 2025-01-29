@@ -7,6 +7,8 @@ import UserHelp from "../../models/UserHelp.js";
 import defineAssociations from "../../models/Associations.js";
 import { addAdminUser, createUser } from "../../controllers/authUserController.js";
 import { postHelpReq } from "../../controllers/helpController.js";
+import { postDisaster } from "../../controllers/disasterController.js";
+import { postAdminPost } from "../../controllers/adminPostController.js";
 
 // Initialize associations
 defineAssociations();
@@ -97,6 +99,50 @@ const next = mockNext;
 			res,
     		next
 		);
+		await postDisaster(
+			{
+				body: {
+					name: "LA Earthquake",
+					event: "Earthquake",
+					city: "Los Angeles",
+					radius: 10,
+					severity: "High",
+					description: "Earthquake in Los Angeles",
+					address: "Los Angeles",
+				},
+			},
+			res,
+			next
+		);
+		await postDisaster(
+			{
+				body: {
+					name: "SF Flooding",
+					event: "Flooding",
+					city: "San Francisco",
+					radius: 20,
+					severity: "High",
+					description: "Tsunami in San Francisco",
+					address: "San Francisco",
+				},
+			},
+			res,
+			next
+		);
+		await postAdminPost(
+			{
+				params: {adminId: "1"},
+				body: {
+					helpType: "Medical",
+					waitingTime: 10,
+					description: "Need medical help",
+					address: "Los Angeles",
+					disasterName: "LA Earthquake",
+				}
+			},
+			res,
+			next
+		)
 	} catch (err) {
 		console.error("Error syncing database:", err.message);
 	} 
