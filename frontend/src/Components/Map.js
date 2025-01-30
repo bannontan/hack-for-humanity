@@ -177,6 +177,7 @@ function AddPin(lat, lng, item, title = "New Marker") {
 			strokeOpacity: 0.5, // Adjust border transparency
 			strokeWeight: 1, // Border thickness
 		});
+		console.log(circle);
 	}
 
 	markers.push(marker);
@@ -192,6 +193,8 @@ const Map = ({ role }) => {
 	const [data, setData] = useState([]);
 	const [selectedLabelKey, setSelectedLabelKey] = useState("");
 	const [selectedFilterValue, setSelectedFilterValue] = useState("");
+
+	console.log(selectedFilterValue);
 
 	useEffect(() => {
 		LoadMap(role, setData);

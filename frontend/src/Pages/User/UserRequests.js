@@ -15,7 +15,6 @@ function UserRequests() {
           }
           const data = await response.json();
           const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
           setUserRequests(sortedData);
         } catch (error) {
           console.error('Error occurred:', error);

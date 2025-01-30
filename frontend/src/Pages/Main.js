@@ -15,10 +15,12 @@ const Main = () => {
 
 	return (
 		<div className="main-page">
+			<div className="logo-container">
+          		<img src="Logo.png" alt="App Logo" className="app-logo" />
+      		</div>
 			<h1>Disaster Relief App</h1>
 			<p className="subtitle">
-				Helping those in need with real-time disaster reporting and
-				rescue efforts.
+				Connecting Communities, Empowering Responses
 			</p>
 			<div className="buttons">
 				<button onClick={handleLoginClick} className="login-button">
