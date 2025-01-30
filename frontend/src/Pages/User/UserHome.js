@@ -90,12 +90,13 @@ function Home() {
     <div className="home-page">
 
       <header className="app-header">
-        <div className="logo">
-          <img src="/images/logo-placeholder.png" alt="App Logo" />
+        <div className="search-bar">
+          <img src="Logo.png" alt="App Logo" className="search-logo" />
+          <input type="text" placeholder="Search" className="search-input" />
+          <span className="search-icon" role="img" aria-label="Search Icon">🔍</span>
         </div>
-        <h1>REscue</h1>
-        <p className="slogan">Connecting Communities, Empowering Responses</p>
       </header>
+
 
       <div className="map-section">
         <Map role="user"/>
@@ -143,8 +144,8 @@ function Home() {
                   </div>
 
                   <div className="help-details">
-                    <p><strong>Location:</strong> {help.address}</p>
                     <p><strong>Event:</strong> {help.disasterName}</p>
+                    <p><strong>Location:</strong> {help.address}</p>
                     <p><strong>Distance:</strong> DISTANCE TBD</p>
                     <p><strong>Waiting Time:</strong> {help.waitingTime} Minutes</p>
                     <p>----</p>

@@ -135,7 +135,7 @@ const next = mockNext;
 				body: {
 					helpType: "Medical",
 					waitingTime: 10,
-					description: "Need medical help",
+					description: "First aid services and doctors onsite",
 					address: "Los Angeles",
 					disasterName: "LA Earthquake",
 				}

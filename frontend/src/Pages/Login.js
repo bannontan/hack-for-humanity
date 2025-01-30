@@ -51,7 +51,7 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <h1>Login to RE App</h1>
+      <h1>Login to REscue!</h1>
       {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleLogin}>
         <input

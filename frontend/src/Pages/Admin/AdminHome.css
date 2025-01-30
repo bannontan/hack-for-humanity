@@ -15,7 +15,6 @@
 .admin-title {
   font-size: 2rem;
   text-align: center;
-  margin: 20px 0;
   color: #333;
   font-weight: 600;
 }
@@ -112,7 +111,7 @@
 
 .admin-help-title {
   font-size: 1.4rem;
-  color: #222;
+  color: #009211;
   font-weight: 600;
   text-align: center;
   margin-bottom: 20px;

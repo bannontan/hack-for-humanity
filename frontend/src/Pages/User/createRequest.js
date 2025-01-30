@@ -31,7 +31,6 @@ console.log('User:', user);
       setName(user?.username || 'John Doe'); // Use `user.name` or an empty string if not present
       setAge(user?.age || 35); // Use `user.age` or an empty string if not present
       setUserId(user?.id || '2');
-      console.log('User:', user);
     }
   }, [user]);
 

@@ -1,34 +1,29 @@
-/* Main page container */
 .main-page {
-    background-color: #ffffff; 
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  overflow: hidden;
+}
+
+  .app-logo {
+    width: 200px;  /* Adjust width */
+    height: auto;  /* Maintain aspect ratio */
   }
   
   /* Title Section */
   .main-page h1 {
     font-size: 32px;
-    font-weight: 700;
     color: #2C3E50; 
-    margin-bottom: 20px;
-    letter-spacing: 1.5px; 
   }
   
   /* Subtitle Section */
   .main-page .subtitle {
     font-size: 16px;
     color: #7F8C8D;
-    margin-bottom: 10px;
-    line-height: 1.2;
-    font-weight: 400;  
   }
   
   /* Button Container */
