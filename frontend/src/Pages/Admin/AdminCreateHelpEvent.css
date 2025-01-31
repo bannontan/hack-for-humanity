@@ -65,14 +65,6 @@
     color: white;
   }
   
-  button[type="submit"]:hover {
-    background-color: #1A618B;
-  }
-  
-  button[type="button"]:hover {
-    background-color: #e53935;
-  }
-  
   button:focus {
     outline: none;
   }

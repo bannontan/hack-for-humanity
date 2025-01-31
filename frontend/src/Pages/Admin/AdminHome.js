@@ -19,6 +19,7 @@ function AdminHome() {
           }
           const data = await response.json();
           setHelpList(data);
+          console.log(data);
         } catch (error) {
           console.error('Error occurred while fetching help:', error);
         }
@@ -114,7 +115,7 @@ function AdminHome() {
             <div key={disaster.id} className="admin-disaster-card">
               {/* Disaster Header */}
               <div className="admin-disaster-header">
-                <h3 className="admin-disaster-event">{disaster.event}</h3>
+                <h3 className="admin-disaster-event">{disaster.name}</h3>
                 {renderSeverityIcon(disaster.severity)}
               </div>
 
@@ -125,7 +126,7 @@ function AdminHome() {
                   <span>{disaster.city}</span>
                 </div>
                 <div className="admin-disaster-distance">
-                  <span>{disaster.distance} miles</span>
+                  <span>5 miles</span>
                 </div>
               </div>
 
@@ -142,7 +143,7 @@ function AdminHome() {
                         </div>
                         <div className="admin-help-details">
                           <span className="admin-help-location">{help.location}</span>
-                          <span className="admin-help-distance">({help.distance} miles away)</span>
+                          <span className="admin-help-distance">(2 miles away)</span>
                         </div>
                       </div>
                       <div className="admin-help-wait-time">

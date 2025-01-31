@@ -1,53 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUser, FaLocationArrow, FaClipboardCheck, FaFire } from 'react-icons/fa';
 import BottomNavBar from '../../Components/BottomNavbar';
 import { FaAmbulance, FaUtensils, FaUserMd, FaClock } from 'react-icons/fa';
 import './AdminRequests.css';
 
 function AdminRequests() {
-  const [requests, setRequests] = useState([
-    {
-      id: 1,
-      name: 'John Doe',
-      age: 32,
-      type: 'First Aid',
-      location: 'San Francisco',
-      description: 'Need urgent medical attention for a broken leg.',
-      status: 'Pending',
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      age: 45,
-      type: 'Water/Food',
-      location: 'New York',
-      description: 'Requesting food supplies for a family of four.',
-      status: 'Pending',
-    },
-    {
-      id: 3,
-      name: 'Michael Johnson',
-      age: 28,
-      type: 'Firefighter',
-      location: 'Los Angeles',
-      description: 'Looking for temporary shelter due to flooding.',
-      status: 'Completed',
-    },
-  ]);
+  const [helpList, setHelpList] = useState([]);
 
-  // Sort requests by status order
-  const statusOrder = ['Pending', 'Help Sent', 'Completed'];
-  const sortedRequests = [...requests].sort(
-    (a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
-  );
+  useEffect(() => {
+    const fetchHelpList = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/map/loc/admin');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setHelpList(data);
+      } catch (error) {
+        console.error('Error occurred while fetching help:', error);
+      }
+    };
+
+    fetchHelpList();
+  }, []); // Runs once when the component mounts
+
+  const statusOrder = ['Pending', 'Approved', 'Completed'];
 
   // Handle status change
-  const handleStatusChange = (id, newStatus) => {
-    const updatedRequests = requests.map((request) =>
-      request.id === id ? { ...request, status: newStatus } : request
-    );
-    setRequests(updatedRequests);
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      // Find the request that needs to be updated
+      const requestToUpdate = helpList.find((help) => help.id === id);
+      if (!requestToUpdate) {
+        console.error('Request not found');
+        return;
+      }
+  
+      // Prepare updated data
+      const updatedRequest = { ...requestToUpdate, status: newStatus };
+  
+      // Send API request
+      const response = await fetch(`http://localhost:8080/map/loc/2`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedRequest),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to update status: ${response.status}`);
+      }
+  
+      // Update the local state after successful API call
+      const updatedRequests = helpList.map((help) =>
+        help.id === id ? { ...help, status: newStatus } : help
+      );
+
+      // Resort the updated list
+      const sortedRequests = updatedRequests.sort(
+        (a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
+      );
+  
+      setHelpList(sortedRequests); // Update state with the new status
+
+      console.log('Updated successfully:', updatedRequests);
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
   };
+  
 
   const renderIcon = (helpType) => {
       switch (helpType) {
@@ -72,12 +94,12 @@ function AdminRequests() {
       <p className="subtitle">View and manage all submitted help requests below.</p>
 
       <div className="requests-container">
-        {sortedRequests.map((request) => (
+        {helpList.map((request) => (
           <div key={request.id} className={`request-card status-${request.status.toLowerCase()}`}>
             <div className="card-header">
-              <h2><FaUser /> {request.name}, {request.age}</h2> 
+              <h2><FaUser /> {request.user.username}, {request.user.age}</h2> 
               <p className="request-type">{renderIcon(request.type)} {request.type}</p>            </div>
-            <p className="location"><FaLocationArrow /> {request.location}</p>
+            <p className="location"><FaLocationArrow /> {request.address}</p>
             <p className="description">{request.description}</p>
             <div className="status-section">
               <FaClipboardCheck /> 
@@ -87,7 +109,7 @@ function AdminRequests() {
                 className="status-dropdown"
               >
                 <option value="Pending">Pending</option>
-                <option value="Help Sent">Help Sent</option>
+                <option value="Approved">Approved</option>
                 <option value="Completed">Completed</option>
               </select>
             </div>
