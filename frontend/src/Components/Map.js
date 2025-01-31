@@ -252,7 +252,7 @@ const Map = ({ role }) => {
 
 				{selectedLabelKey && (
 					<>
-						<label style={{ marginLeft: "20px" }}>Filter by type:</label>
+						<label style={{ marginLeft: "30px" }}>Filter by type:</label>
 						<select onChange={handleFilterValueChange}>
 							<option value="">All</option>
 							{getUniqueValues(selectedLabelKey).map((value, index) => (

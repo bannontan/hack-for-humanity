@@ -171,7 +171,7 @@ const EventCard = ({ disaster, renderSeverityBadge, renderEventIcon }) => {
         {renderEventIcon(disaster.event, 64)}
       </div>
       <div className="event-details">
-        <h3>{disaster.event}</h3>
+        <h3>{disaster.name}</h3>
         <p><strong>Location:</strong> {disaster.city}</p>
         <p><strong>Severity:</strong> {renderSeverityBadge(disaster.severity)}</p>
         <p>{disaster.description}</p>

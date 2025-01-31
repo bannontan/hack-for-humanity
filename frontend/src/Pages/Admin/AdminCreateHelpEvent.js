@@ -3,11 +3,11 @@ import './AdminCreateHelpEvent.css';
 
 const HelpForm = ({ disasters, setDisasters, setShowForm }) => {
   const [newHelp, setNewHelp] = useState({
-    event: '',
-    type: '',
-    location: '',
-    distance: '',
-    waitTime: '',
+    helpType: '',
+    waitingTime: '',
+    description: '',
+    address: '',
+    disasterName: '',
   });
 
   const handleChange = (e) => {
@@ -15,26 +15,47 @@ const HelpForm = ({ disasters, setDisasters, setShowForm }) => {
     setNewHelp((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedDisasters = disasters.map((disaster) =>
-      disaster.event === newHelp.event
-        ? {
-            ...disaster,
-            help: [
-              ...disaster.help,
-              {
-                type: newHelp.type,
-                location: newHelp.location,
-                distance: newHelp.distance,
-                waitTime: newHelp.waitTime,
-              },
-            ],
-          }
-        : disaster
-    );
-    setDisasters(updatedDisasters);
-    setShowForm(false); // Close the form
+
+    console.log('Submitting help data:', {
+      helpType: newHelp.helpType,
+      address: newHelp.address,
+      waitingTime: newHelp.waitingTime,
+      disasterName: newHelp.disasterName,
+      description: newHelp.description,
+    });
+    
+
+    try {
+      // Send data to the API
+      const response = await fetch('http://localhost:8080/adminpost/1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          helpType: newHelp.helpType,
+          address: newHelp.address,
+          waitingTime: newHelp.waitingTime,
+          disasterName: "SF Flooding",
+          description: newHelp.description,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send help data to API');
+      }
+
+      // Assuming the response contains updated disaster data, or fetch the updated list
+      const updatedDisasters = await response.json();
+
+      setDisasters(updatedDisasters); // Update the state with the new disaster data
+      setShowForm(false); // Close the form
+
+    } catch (error) {
+      console.error('Error submitting help data:', error);
+    }
   };
 
   return (
@@ -46,14 +67,14 @@ const HelpForm = ({ disasters, setDisasters, setShowForm }) => {
         <div className="form-group">
           <label>Event</label>
           <select
-            name="event"
-            value={newHelp.event}
+            name="disasterName"
+            value={newHelp.disasterName}
             onChange={handleChange}
             required
           >
             {disasters.map((disaster) => (
-              <option key={disaster.id} value={disaster.event}>
-                {disaster.event}
+              <option key={disaster.id} value={disaster.name}>
+                {disaster.name}
               </option>
             ))}
           </select>
@@ -64,8 +85,8 @@ const HelpForm = ({ disasters, setDisasters, setShowForm }) => {
           <label>Help Type</label>
           <input
             type="text"
-            name="type"
-            value={newHelp.type}
+            name="helpType"
+            value={newHelp.helpType}
             onChange={handleChange}
             required
           />
@@ -76,20 +97,8 @@ const HelpForm = ({ disasters, setDisasters, setShowForm }) => {
           <label>Location</label>
           <input
             type="text"
-            name="location"
-            value={newHelp.location}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Distance Input */}
-        <div className="form-group">
-          <label>Distance (miles)</label>
-          <input
-            type="number"
-            name="distance"
-            value={newHelp.distance}
+            name="address"
+            value={newHelp.address}
             onChange={handleChange}
             required
           />
@@ -99,9 +108,21 @@ const HelpForm = ({ disasters, setDisasters, setShowForm }) => {
         <div className="form-group">
           <label>Waiting Time</label>
           <input
+            type="number"
+            name="waitingTime"
+            value={newHelp.waitingTime}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Description Input */}
+        <div className="form-group">
+          <label>Description</label>
+          <input
             type="text"
-            name="waitTime"
-            value={newHelp.waitTime}
+            name="description"
+            value={newHelp.description}
             onChange={handleChange}
             required
           />
