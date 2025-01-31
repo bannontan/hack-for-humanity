@@ -49,6 +49,14 @@ const CreateRequest = () => {
 				body: JSON.stringify({ address, description, type, userId }),
 			});
 
+			const responseStatus = response.status;
+			if (responseStatus === 401) {
+				const showAlert = () => {
+					window.alert("Unauthorized request. Please log in first.");
+				};
+				return <div>{showAlert()}</div>;
+			}
+
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
